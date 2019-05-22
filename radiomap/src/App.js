@@ -1,10 +1,12 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import ReactPlayer from 'react-player'
 
 function App() {
   return (
     <div className="App">
+    <ReactPlayer url="http://212.83.185.113/pulsAAC64.mp3" controls={true} />
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
