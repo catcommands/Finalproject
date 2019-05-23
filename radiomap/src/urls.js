@@ -1,6 +1,4 @@
-const =
-
-[
+const urls = [
     {
       "id": "121639",
       "changeuuid": "96ddd650-5963-11e9-a622-52543be04c81",
@@ -28188,4 +28186,4 @@ const =
     }
   ]
 
-  export 
+  export default {urls}
