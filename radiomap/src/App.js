@@ -21,29 +21,40 @@ class App extends Component {
       .then(data => this.setState({ stations: data, isLoading: false }));
   }
 
-render() {
-  console.log(this.state)
+  render() {
+    console.log("state is:", this.state)
 
-  return (
-    <div className="App">
-    <ReactPlayer url={this.state.url} controls={true} />
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+
+    return (
+      <div className="App">
+      <ReactPlayer url={this.state.url} controls={true} />
+        
+        {/* stations={this.state.stations.map((data) => {
+          return (
+            <ReactPlayer
+                    url={this.data.url} 
+                    controls={true} />
+                    )
+          }
+        )} */}
+
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <p>
+            Edit <code>src/App.js</code> and save to reload.
+          </p>
+          <a
+            className="App-link"
+            href="https://reactjs.org"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Learn React
+          </a>
+        </header>
+      </div>
+    );
+  }
 }
 
 export default App;
