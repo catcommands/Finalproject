@@ -2,9 +2,11 @@ import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
 import ReactPlayer from 'react-player'
+import {urls} from "./urls"
 
 class App extends Component {
   constructor (props) {
+    console.log(urls)
     super(props);
     this.state = {
       url: "http://212.83.185.113/pulsAAC64.mp3",
@@ -13,12 +15,17 @@ class App extends Component {
     };
   }
 
+  onClick = evt => {
+    console.log(evt.target.textContent)
+    this.setState({ url: evt.target.textContent })
+  }
+
   componentDidMount() {
     this.setState({ isLoading: true });
 
-    fetch("http://www.radio-browser.info/webservice/json/stations/bycountry/Canada")
-      .then(response => response.json())
-      .then(data => this.setState({ stations: data, isLoading: false }));
+    // fetch("http://www.radio-browser.info/webservice/json/stations/bycountry/Canada")
+    //   .then(response => response.json())
+    //   .then(data => this.setState({ stations: data, isLoading: false }));
   }
 
 render() {
@@ -26,24 +33,14 @@ render() {
 
   return (
     <div className="App">
-    <ReactPlayer url={this.state.url} controls={true} />
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <ReactPlayer url={this.state.url} controls={true} playing={true}/>
+      {urls.map(url => <div value = {url.url} onClick = {this.onClick}>{url.url}</div>)}
+      <h1>STATIONS FROM API</h1>
+      {this.state.stations.map(url => <div value = {url.url} onClick = {this.onClick}>{url.url}</div>)}
     </div>
   );
 }
 }
 
 export default App;
+
