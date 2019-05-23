@@ -28186,4 +28186,4 @@ const urls = [
     }
   ]
 
-  export default {urls}
+  export {urls}
