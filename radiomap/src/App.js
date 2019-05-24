@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
 import ReactPlayer from 'react-player'
 import {urls} from "./urls"
@@ -34,6 +34,8 @@ render() {
   return (
     <div className="App">
     <ReactPlayer className='react-player' url={this.state.url} controls={true} playing={true}/>
+    <input type="search" id="site-search" placeholder="Search by name, call sign, genre, city or country" name="q" aria-label="Search through site content"></input>
+<button>Search</button>
     <h1>STATIONS FROM API</h1>
       {urls.map(url => <div value = {url.url} onClick = {this.onClick}>{url.url}</div>)}
       {this.state.stations.map(url => <div value = {url.url} onClick = {this.onClick}>{url.url}</div>)}
