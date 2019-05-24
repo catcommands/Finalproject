@@ -33,9 +33,10 @@ render() {
 
   return (
     <div className="App">
-    <ReactPlayer url={this.state.url} controls={true} playing={true}/>
+    <ReactPlayer className='react-player' url={this.state.url} controls={true} playing={true}/>
+    <h1>STATIONS FROM API</h1>
       {urls.map(url => <div value = {url.url} onClick = {this.onClick}>{url.url}</div>)}
-      <h1>STATIONS FROM API</h1>
+      
       {this.state.stations.map(url => <div value = {url.url} onClick = {this.onClick}>{url.url}</div>)}
     </div>
   );
