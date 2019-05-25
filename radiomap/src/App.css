@@ -35,3 +35,11 @@
     transform: rotate(360deg);
   }
 }
+
+input {
+  margin: .4rem 0;
+}
+
+.note {
+  font-size: .8em;
+}
