@@ -7,21 +7,19 @@ import { Viewer, Entity } from "resium";
 import { Cartesian3 } from "cesium";
 import {urls} from "./urls"
 
-// Loop through urls
-// for each url
-// call Cartesian3.fromDegrees with url lng and url lat
-const lat = Number(urls[1].lat)
-const lng = Number(urls[1].lng)
-
-const position = Cartesian3.fromDegrees(lng, lat, 100);
 const pointGraphics = { pixelSize: 10 };
-
+const positions = urls.map((url) => {
+  // TODO: instead of returning [Cartesian, Cartesian, etc.]
+  // return [{ coord: Cartesian, url: url }, { coord: Cartesian, url: url }, etc.]
+  return Cartesian3.fromDegrees(Number(url.lng), Number(url.lat), 100)
+})
+console.log(positions)
 class Radioplayer extends Component {
   constructor (props) {
     super(props);
     this.state = {
       url: "",
-      coords: position,
+      coords: positions,
       isLoading: false,
       stations: []
     };
@@ -41,12 +39,13 @@ class Radioplayer extends Component {
   //);
 
 render() {
+  const entities = positions.map((position) => <Entity position={position} point={pointGraphics} onClick={this.onClick}/>)
   console.log(this.state)
   return (
     <div className="Radioplayer">
     <ReactPlayer className='react-player' url={this.state.url} controls={true} playing={true}/>
     <Viewer full={true} navigationHelpButton={false} navigationInstructionsInitiallyVisible={false} timeline={false} vrButton={false} animation={false}>
-      <Entity position={position} point={pointGraphics} onClick={this.onClick}/>
+      {entities}
     </Viewer>
     <input type="search" id="site-search" placeholder="Search by name, call sign, genre, city or country" name="q" aria-label="Search through site content"></input>
 <button>Search</button>
