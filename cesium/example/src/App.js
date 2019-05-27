@@ -5,9 +5,15 @@ import { hot } from "react-hot-loader/root";
 
 import { Viewer, Entity } from "resium";
 import { Cartesian3 } from "cesium";
-//import {urls} from "./urls"
+import {urls} from "./urls"
 
-const position = Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100);
+// Loop through urls
+// for each url
+// call Cartesian3.fromDegrees with url lng and url lat
+const lat = Number(urls[1].lat)
+const lng = Number(urls[1].lng)
+
+const position = Cartesian3.fromDegrees(lng, lat, 100);
 const pointGraphics = { pixelSize: 10 };
 
 class Radioplayer extends Component {
@@ -22,7 +28,7 @@ class Radioplayer extends Component {
   }
   onClick = evt => {
     //console.log(evt.target.textContent)
-    this.setState({ url: "http://listen.radionomy.com/80-exits"})
+    this.setState({ url: "http://46.105.126.68:7304/;stream.mp3"})
   }
 
   componentDidMount() {
