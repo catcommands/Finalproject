@@ -11,7 +11,9 @@ const pointGraphics = { pixelSize: 10 };
 const positions = urls.map((url) => {
   // TODO: instead of returning [Cartesian, Cartesian, etc.]
   // return [{ coord: Cartesian, url: url }, { coord: Cartesian, url: url }, etc.]
-  return Cartesian3.fromDegrees(Number(url.lng), Number(url.lat), 100)
+  // {coord: Cartesian3.fromDegrees(Number(url.lng), Number(url.lat), 100), url: url}
+
+  return {coord: Cartesian3.fromDegrees(Number(url.lng), Number(url.lat), 100), url:url}
 })
 console.log(positions)
 class Radioplayer extends Component {
@@ -25,8 +27,8 @@ class Radioplayer extends Component {
     };
   }
   onClick = evt => {
-    //console.log(evt.target.textContent)
-    this.setState({ url: "http://46.105.126.68:7304/;stream.mp3"})
+    // console.log("the event is:", evt)
+    this.setState({ url: evt.url})
   }
 
   componentDidMount() {
@@ -39,8 +41,8 @@ class Radioplayer extends Component {
   //);
 
 render() {
-  const entities = positions.map((position) => <Entity position={position} point={pointGraphics} onClick={this.onClick}/>)
-  console.log(this.state)
+const entities = positions.map((position) => { return <Entity position={position.coord} point={pointGraphics} onClick={() => this.onClick(position.url)}/>})
+  console.log(entities)
   return (
     <div className="Radioplayer">
     <ReactPlayer className='react-player' url={this.state.url} controls={true} playing={true}/>
