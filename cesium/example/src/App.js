@@ -46,7 +46,7 @@ const entities = positions.map((position) => { return <Entity position={position
   return (
     <div className="Radioplayer">
     <ReactPlayer className='react-player' url={this.state.url} controls={true} playing={true}/>
-    <Viewer full={true} navigationHelpButton={false} navigationInstructionsInitiallyVisible={false} timeline={false} vrButton={false} animation={false}>
+    <Viewer full={true} navigationHelpButton={false} navigationInstructionsInitiallyVisible={false} timeline={false} vrButton={false} animation={false} cesiumContainer={false}>
       {entities}
     </Viewer>
     <input type="search" id="site-search" placeholder="Search by name, call sign, genre, city or country" name="q" aria-label="Search through site content"></input>
