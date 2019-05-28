@@ -18,6 +18,13 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+.cesium-viewer-bottom {
+  display: none;
+}
+
+.cesium-viewer-animationContainer {
+  display: none;
+}
 
 .App-link {
   color: #61dafb;
@@ -47,7 +54,6 @@
 
 #myInput {
   border-box: box-sizing;
-  background-image: url('searchicon.png');
   background-position: 14px 12px;
   background-repeat: no-repeat;
   font-size: 16px;
