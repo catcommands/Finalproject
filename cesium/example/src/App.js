@@ -35,6 +35,25 @@ class Radioplayer extends Component {
     this.setState({ isLoading: true });
   }
 
+  myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show");
+  }
+  
+  filterFunction() {
+    var input, filter, a, i, div, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    div = document.getElementById("myDropdown");
+    a = div.getElementsByTagName("a");
+    for (i = 0; i < a.length; i++) {
+      txtValue = a[i].textContent || a[i].innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        a[i].style.display = "";
+      } else {
+        a[i].style.display = "none";
+      }
+    }
+  }
 
   //const App = () => (
     
@@ -47,10 +66,22 @@ const entities = positions.map((position) => { return <Entity position={position
     <div className="Radioplayer">
     <ReactPlayer className='react-player' url={this.state.url} controls={true} playing={true}/>
     <Viewer full={true} navigationHelpButton={false} navigationInstructionsInitiallyVisible={false} timeline={false} vrButton={false} cesium-credit-logoContainer={false} cesium-credit-textContainer={false} cesium-viewer-bottom={false}>
+      <div class="dropdown">
+        <button onclick="myFunction()" class="dropbtn">Dropdown</button>
+        <div id="myDropdown" class="dropdown-content">
+          <input type="text" placeholder="Search by name, genre, city or country" id="myInput" onkeyup="filterFunction()"/>
+          <a href="#about">About</a>
+          <a href="#base">Base</a>
+          <a href="#blog">Blog</a>
+          <a href="#contact">Contact</a>
+          <a href="#custom">Custom</a>
+          <a href="#support">Support</a>
+          <a href="#tools">Tools</a>
+        </div>
+      </div>
       {entities}
     </Viewer>
-    <input type="search" id="site-search" placeholder="Search by name, call sign, genre, city or country" name="q" aria-label="Search through site content"></input>
-<button>Search</button>
+
     <h1>STATIONS FROM API</h1>
     </div>
   );
