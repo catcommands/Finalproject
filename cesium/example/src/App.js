@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import ReactPlayer from 'react-player'
 import { hot } from "react-hot-loader/root";
-
+import "./App.css";
 
 import { Viewer, Entity } from "resium";
 import { Cartesian3 } from "cesium";
@@ -16,6 +16,8 @@ const positions = urls.map((url) => {
   return {coord: Cartesian3.fromDegrees(Number(url.lng), Number(url.lat), 100), url:url}
 })
 console.log(positions)
+
+//const Credit = () => <div>Hello</div>
 class Radioplayer extends Component {
   constructor (props) {
     super(props);
@@ -43,10 +45,16 @@ class Radioplayer extends Component {
 render() {
 const entities = positions.map((position) => { return <Entity position={position.coord} point={pointGraphics} onClick={() => this.onClick(position.url)}/>})
   console.log(entities)
+//  console.log(process.env)
+
+//Cesium.IonImageryProvider.defaultAccessToken = process.env.REACT_APP_CTOKEN
   return (
     <div className="Radioplayer">
     <ReactPlayer className='react-player' url={this.state.url} controls={true} playing={true}/>
-    <Viewer full={true} navigationHelpButton={false} navigationInstructionsInitiallyVisible={false} timeline={false} vrButton={false} cesium-credit-logoContainer={false} cesium-credit-textContainer={false} cesium-viewer-bottom={false}>
+    <Viewer token={process.env.REACT_APP_CTOKEN} full={true} navigationHelpButton={false} 
+    navigationInstructionsInitiallyVisible={false} timeline={false} vrButton={false} 
+    cesium-credit-logoContainer={false} cesium-credit-textContainer={false} selectionIndicator={false} 
+    cesium-viewer-bottom={false}>
       {entities}
     </Viewer>
     <input type="search" id="site-search" placeholder="Search by name, call sign, genre, city or country" name="q" aria-label="Search through site content"></input>
