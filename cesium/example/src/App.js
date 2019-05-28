@@ -18,7 +18,7 @@ const positions = urls.map((url) => {
 console.log(positions)
 
 const searchOptions = urls.map((option) => {
-  return {name: option.name, genre: option.tags, city: option.state, country: option.country }
+  return {name: option.name, genre: option.tags, city: option.state, country: option.country, url: option.url}
 })
 
 //const Credit = () => <div>Hello</div>
@@ -32,9 +32,13 @@ class Radioplayer extends Component {
       stations: [],
     };
   }
-  onClick = evt => {
-    // console.log("the event is:", evt)
-    this.setState({ url: evt.url})
+  onClick = (url, e) => {
+    if (e) {
+      e.preventDefault()
+    }
+    
+    console.log("the url is:",url)
+    this.setState({ url: url})
   }
 
   componentDidMount() {
@@ -66,15 +70,16 @@ class Radioplayer extends Component {
   //);
 
 render() {
-const entities = positions.map((position) => { 
-  return <Entity position={position.coord} point={pointGraphics} onClick={() => this.onClick(position.url)}/>
+const entities = positions.map((position, i) => { 
+  return <Entity key={i} position={position.coord} point={pointGraphics} onClick={() => this.onClick(position.url.url)}/>
 })
   console.log(entities)
   // TODO: make a const that loops through the urls
   // and returns an a tag <a href="">{url.name}</a>
   // for each url
-const options = searchOptions.map((element) => {
-  return <a href="">{element.name}</a>
+const options = searchOptions.map((element, i) => {
+  console.log("Eelement is:", element)
+  return <a key={i} href="" onClick={(e) => this.onClick(element.url, e)}>{element.name}</a>
 })
 
 //Cesium.IonImageryProvider.defaultAccessToken = process.env.REACT_APP_CTOKEN
