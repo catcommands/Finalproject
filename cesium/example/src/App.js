@@ -43,6 +43,7 @@ class Radioplayer extends Component {
 render() {
 const entities = positions.map((position) => { return <Entity position={position.coord} point={pointGraphics} onClick={() => this.onClick(position.url)}/>})
   console.log(entities)
+  console.log(process.env)
   return (
     <div className="Radioplayer">
     <ReactPlayer className='react-player' url={this.state.url} controls={true} playing={true}/>
