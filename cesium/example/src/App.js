@@ -66,9 +66,9 @@ const entities = positions.map((position) => { return <Entity position={position
     <div className="Radioplayer">
     <ReactPlayer className='react-player' url={this.state.url} controls={true} playing={true}/>
     <Viewer full={true} navigationHelpButton={false} navigationInstructionsInitiallyVisible={false} timeline={false} vrButton={false} cesium-credit-logoContainer={false} cesium-credit-textContainer={false} cesium-viewer-bottom={false}>
-      <div class="dropdown">
-        <button onclick="myFunction()" class="dropbtn">Dropdown</button>
-        <div id="myDropdown" class="dropdown-content">
+      <div className="dropdown">
+        <button onclick="myFunction()" className="dropbtn">Dropdown</button>
+        <div id="myDropdown" className="dropdown-content">
           <input type="text" placeholder="Search by name, genre, city or country" id="myInput" onkeyup="filterFunction()"/>
           <a href="#about">About</a>
           <a href="#base">Base</a>
