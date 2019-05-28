@@ -18,6 +18,13 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+.cesium-viewer-bottom {
+  display: none;
+}
+
+.cesium-viewer-animationContainer {
+  display: none;
+}
 
 .App-link {
   color: #61dafb;
