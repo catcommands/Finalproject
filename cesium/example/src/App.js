@@ -3,10 +3,12 @@ import ReactPlayer from 'react-player'
 import { hot } from "react-hot-loader/root";
 import "./App.css";
 
-import { Viewer, Entity } from "resium";
-import { Cartesian3 } from "cesium";
+import { Viewer, Entity} from "resium";
+import { Cartesian3} from "cesium";
 import {urls} from "./urls"
 
+
+//const frustum = new PerspectiveFrustum ({near:1.0, far:2.0, fov:3.14, aspectratio:1.0})
 const pointGraphics = { pixelSize: 10 };
 const positions = urls.map((url) => {
   // TODO: instead of returning [Cartesian, Cartesian, etc.]
@@ -37,10 +39,10 @@ class Radioplayer extends Component {
       e.preventDefault()
     }
     
-    var x = document.getElementsByClassName("cesium-viewer-toolbar")[0].firstChild.firstChild.firstChild; 
-    x.focus()
-    x.keepExpanded = true;
-    x.value = `${data.lng}, ${data.lat}`
+    // var x = document.getElementsByClassName("cesium-viewer-toolbar")[0].firstChild.firstChild.firstChild; 
+    // //x.focus()
+    // x.keepExpanded = true;
+    // x.value = `${data.lng}, ${data.lat}`
 
     // setTimeout(function(){
       var txtbox = document.getElementsByClassName("cesium-geocoder-searchButton")[0]
@@ -83,7 +85,7 @@ class Radioplayer extends Component {
   //const App = () => (
     
   //);
-
+  //Camera frustum={frustum}/>
 render() {
 const entities = positions.map((position, i) => { 
   return <Entity key={i} position={position.coord} point={pointGraphics} onClick={() => this.onClick(position.url)}/>
@@ -120,7 +122,7 @@ const options = searchOptions.map((element, i) => {
           {options}
         </div>
       </div>
-
+    
       {entities}
     </Viewer>
 
