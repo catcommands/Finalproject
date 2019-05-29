@@ -18,7 +18,7 @@ const positions = urls.map((url) => {
 console.log(positions)
 
 const searchOptions = urls.map((option) => {
-  return {name: option.name, genre: option.tags, city: option.state, country: option.country, url: option.url}
+  return {name: option.name, genre: option.tags, city: option.state, country: option.country, url: option.url, lng: option.lng, lat: option.lat}
 })
 
 //const Credit = () => <div>Hello</div>
@@ -32,13 +32,25 @@ class Radioplayer extends Component {
       stations: [],
     };
   }
-  onClick = (url, e) => {
+  onClick = (data, e) => {
     if (e) {
       e.preventDefault()
     }
     
-    console.log("the url is:",url)
-    this.setState({ url: url})
+    var x = document.getElementsByClassName("cesium-viewer-toolbar")[0].firstChild.firstChild.firstChild; 
+    x.focus()
+    x.keepExpanded = true;
+    x.value = `${data.lng}, ${data.lat}`
+
+    // setTimeout(function(){
+      var txtbox = document.getElementsByClassName("cesium-geocoder-searchButton")[0]
+      
+      txtbox.click()
+
+    
+
+    console.log("the url is:", data)
+    this.setState({ url: data.url})
   }
 
   componentDidMount() {
@@ -65,13 +77,16 @@ class Radioplayer extends Component {
     }
   }
 
+  // cameraFunction(){
+  //   var x = document.getElementsByClassName("example");
+  // }
   //const App = () => (
     
   //);
 
 render() {
 const entities = positions.map((position, i) => { 
-  return <Entity key={i} position={position.coord} point={pointGraphics} onClick={() => this.onClick(position.url.url)}/>
+  return <Entity key={i} position={position.coord} point={pointGraphics} onClick={() => this.onClick(position.url)}/>
 })
   console.log(entities)
   // TODO: make a const that loops through the urls
@@ -79,7 +94,7 @@ const entities = positions.map((position, i) => {
   // for each url
 const options = searchOptions.map((element, i) => {
   console.log("Eelement is:", element)
-  return <a key={i} href="" onClick={(e) => this.onClick(element.url, e)}>{element.name}</a>
+  return <a key={i} href="" onClick={(e) => this.onClick(element, e)}>{element.name}</a>
 })
 
 //Cesium.IonImageryProvider.defaultAccessToken = process.env.REACT_APP_CTOKEN
