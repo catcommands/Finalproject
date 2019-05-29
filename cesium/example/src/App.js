@@ -77,12 +77,6 @@ class Radioplayer extends Component {
     }
   }
 
-  // cameraFunction(){
-  //   var x = document.getElementsByClassName("example");
-  // }
-  //const App = () => (
-    
-  //);
 
 render() {
 const entities = positions.map((position, i) => { 
@@ -114,14 +108,17 @@ const options = searchOptions.map((element, i) => {
     cesium-credit-textContainer={false}
     cesium-viewer-bottom={false}>
       <div className="searchbar">
-        <button onClick={() => this.myFunction()} className="dropbtn">Dropdown</button>
+        <button onClick={() => this.myFunction()} className="dropbtn">Search by radio station</button>
         <div id="myDropdown" className="dropdown-content">
           <input type="text" placeholder="Search by name, genre, city or country" id="myInput" onKeyUp={() => this.filterFunction()}/>
           {options}
         </div>
       </div>
-
       {entities}
+        <div class="fav-btn">
+          <i onClick={null} class="far fa-heart"></i>
+        </div>
+
     </Viewer>
 
     <h1>STATIONS FROM API</h1>
