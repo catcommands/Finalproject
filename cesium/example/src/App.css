@@ -116,13 +116,15 @@
 }
 
 .fav-btn {
+  font-size: 30px;
 	display:flex;
 	height: 40px;
 	justify-content: center;
   align-items: center;
   position: absolute;
   top: 0;
-  left: 0;
-  background-color: white;
+  left: 300px;
+  color:white;
+  background-color: black;
   z-index: 1;
 }

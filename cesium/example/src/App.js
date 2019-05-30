@@ -1,22 +1,16 @@
 import React, {Component} from 'react';
 import ReactPlayer from 'react-player'
-// import Select from 'react-select';
 import { hot } from "react-hot-loader/root";
 import "./App.css";
+import FavoriteList from "./FavoriteList.js";
 
 import { Viewer, Entity } from "resium";
 import { Cartesian3 } from "cesium";
 import {urls} from "./urls"
 
-// import Scrollbar from 'react-scrollbar';
-// var ScrollArea = require('react-scrollbar');
 
 const pointGraphics = { pixelSize: 10 };
 const positions = urls.map((url) => {
-  // TODO: instead of returning [Cartesian, Cartesian, etc.]
-  // return [{ coord: Cartesian, url: url }, { coord: Cartesian, url: url }, etc.]
-  // {coord: Cartesian3.fromDegrees(Number(url.lng), Number(url.lat), 100), url: url}
-
   return {coord: Cartesian3.fromDegrees(Number(url.lng), Number(url.lat), 100), url:url}
 })
 // console.log(positions)
@@ -36,6 +30,7 @@ class Radioplayer extends Component {
       isLoading: false,
       stations: [],
       showSearch:false,
+      favorites: [],
     };
   }
   onClick = (data, e) => {
@@ -53,14 +48,19 @@ class Radioplayer extends Component {
     this.toggleSearchList();
   }
 
-
   componentDidMount() {
     this.setState({ isLoading: true });
 
-    // if (localStorage.getItem('favCart') !== null) {
-    //   favCart = JSON.parse(localStorage.getItem('favCart'))
-    // }
-
+    if (localStorage.getItem('favorites') !== null) {
+      this.state.favorites = JSON.parse(localStorage.getItem('favorites'))
+    } else {
+      localStorage.setItem("favorites", this.state.name);
+    }
+    // Save the favoriteCart info when the user close the window
+  window.addEventListener('beforeunload', (event) => {
+    localStorage.setItem('favorites', null);
+    localStorage.setItem('favorites', JSON.stringify(this.state.favcart));
+  });
   }
 
   toggleSearchList() {
@@ -83,27 +83,17 @@ class Radioplayer extends Component {
       }
     }
   }
-
-  
-
   
   // Resets the localStorage to an empty object, eliminating all items on it
-// clearFavCart(){
-//   localStorage.setItem('favCart', null);
-//   favoriteCart = {};
-//   window.location.reload();
-// }
-
-// Save the favoriteCart info when the user close the window
-// window.addEventListener('beforeunload', (event) => {
-//   localStorage.setItem('favCart', null);
-//   localStorage.setItem('favCart', JSON.stringify(cart));
-// });
-
+clearFavCart(){
+  localStorage.setItem('favorites', null);
+  this.state.favorites = [];
+  window.location.reload();
+}
 
 render() {
   console.log("localstorage is:", localStorage)
-  localStorage.setItem("favCart", JSON.stringify([]))
+  localStorage.setItem("favorites", JSON.stringify([]))
 
 const entities = positions.map((position, i) => { 
   return <Entity key={i} position={position.coord} point={pointGraphics} onClick={() => this.onClick(position.url)}/>
@@ -135,32 +125,18 @@ console.log("options:", options)
     cesium-credit-textContainer={false}
     cesium-viewer-bottom={false}>
 
-      {/* <Select
-        value={options}
-        onChange={() => this.showSearchList()}
-        options={searchOptions}
-      /> */}
+  
 
       <div className="searchbar">
         <button onClick={() => this.toggleSearchList()} className="dropbtn">Search radio stations</button>
         <div id="myDropdown" className="dropdown-content">
-          <input type="text" placeholder="Search by name, genre, city or country" id="myInput" onKeyUp={() => this.filterFunction()} onClick= {() => document.getElementById("myDropdown").classList.toggle("show")} />
+          <input type="text" placeholder="Search by name, genre, city or country" id="myInput" onKeyUp={() => this.filterFunction()} onBlur= {() => document.getElementById("myDropdown").classList.toggle("show")} />
           {options}
         </div>
       </div>
-
-      {/* <ScrollArea
-            speed={0.8}
-            className="area"
-            contentClassName="content"
-            horizontal={false}
-            >
-            <div>Some long content.</div>
-          </ScrollArea> */}
-
       
+      <FavoriteList favorites={this.state.favorites} />
 
-        
       {entities}
         <div className="fav-btn">
           <i onClick={null} className="far fa-heart"></i>
