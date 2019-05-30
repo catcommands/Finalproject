@@ -31,6 +31,7 @@ class Radioplayer extends Component {
       stations: [],
       showSearch:false,
       favorites: [],
+      currentStation: null,
     };
   }
   onClick = (data, e) => {
@@ -43,28 +44,43 @@ class Radioplayer extends Component {
     x.value = `${data.lng}, ${data.lat}`
     var txtbox = document.getElementsByClassName("cesium-geocoder-searchButton")[0]
     txtbox.click()
-    // console.log("the url is:", data)
-    this.setState({ url: data.url})
-    this.toggleSearchList();
+    console.log("the data is:", data)
+    this.setState({ url: data.url, currentStation: data, showSearch: false})
+    //this.toggleSearchList();
   }
+
 
   componentDidMount() {
     this.setState({ isLoading: true });
 
-    if (localStorage.getItem('favorites') !== null) {
-      this.state.favorites = JSON.parse(localStorage.getItem('favorites'))
-    } else {
-      localStorage.setItem("favorites", this.state.name);
-    }
-    // Save the favoriteCart info when the user close the window
-  window.addEventListener('beforeunload', (event) => {
-    localStorage.setItem('favorites', null);
-    localStorage.setItem('favorites', JSON.stringify(this.state.favcart));
-  });
+  //   if (localStorage.getItem('favorites') !== null) {
+  //     this.state.favorites = JSON.parse(localStorage.getItem('favorites'))
+  //   } else {
+  //     localStorage.setItem("favorites", this.state.name);
+  //   }
+  //   // Save the favoriteCart info when the user close the window
+  // window.addEventListener('beforeunload', (event) => {
+  //   localStorage.setItem('favorites', null);
+  //   localStorage.setItem('favorites', JSON.stringify(this.state.favcart));
+  // });
   }
 
+  favoritesHandler = (data, e) => {
+    if (e) {
+      e.preventDefault()
+    }
+    console.log("the data is:", data)
+    this.setState({ favorites: this.state.favorites})
+    console.log("favorites: ", this.state.favorites);
+  }
+
+ 
   toggleSearchList() {
-      document.getElementById("myDropdown").classList.toggle("show");
+      if (!this.state.showSearch)
+        this.setState({showSearch: true})
+      else
+        this.setState({showSearch: false})
+
   
   }
   
@@ -125,21 +141,22 @@ console.log("options:", options)
     cesium-credit-textContainer={false}
     cesium-viewer-bottom={false}>
 
-  
-
       <div className="searchbar">
         <button onClick={() => this.toggleSearchList()} className="dropbtn">Search radio stations</button>
+        { this.state.showSearch &&
         <div id="myDropdown" className="dropdown-content">
-          <input type="text" placeholder="Search by name, genre, city or country" id="myInput" onKeyUp={() => this.filterFunction()} onBlur= {() => document.getElementById("myDropdown").classList.toggle("show")} />
+          <input type="text" placeholder="Search by name, genre, city or country" id="myInput" onKeyUp={() => this.filterFunction()} />
+          <button onClick= {() => this.toggleSearchList()} >Cancel</button>
           {options}
         </div>
+        }
       </div>
       
       <FavoriteList favorites={this.state.favorites} />
 
       {entities}
         <div className="fav-btn">
-          <i onClick={null} className="far fa-heart"></i>
+          <i onClick={() => this.favoritesHandler()} className="far fa-heart"></i>
         </div>
         
     </Viewer>
