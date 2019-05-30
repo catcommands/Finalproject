@@ -46,10 +46,20 @@
   font-size: 16px;
   border: none;
   cursor: pointer;
+  height: 40px
 }
 
 .dropbtn:hover, .dropbtn:focus {
   background-color: hsl(227, 32%, 11%);
+}
+
+#myDropdown {
+  overflow-x: hidden;
+  overflow-y: scroll;
+  height:300px;
+  width:100%;
+  margin-top: -40px;
+  background-color: rgba(255, 255, 255, 0.4);
 }
 
 #myInput {
@@ -60,6 +70,7 @@
   padding: 14px 20px 12px 45px;
   border: none;
   border-bottom: 1px solid #ddd;
+  width: 100%;
 }
 
 #myInput:focus {outline: 3px solid #ddd;}
@@ -85,23 +96,28 @@
   padding: 12px 16px;
   text-decoration: none;
   display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .dropdown a:hover {background-color: #ddd;}
 
 .show {display: block;}
 
+.hide {display: hide;}
+
 .searchbar {
   position: absolute;
   top: 0;
   left: 0;
-  background-color: white;
   z-index: 1;
+  min-width: 300px
 }
 
 .fav-btn {
 	display:flex;
-	height: 50px;
+	height: 40px;
 	justify-content: center;
   align-items: center;
   position: absolute;
