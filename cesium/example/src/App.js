@@ -13,12 +13,12 @@ const positions = urls.map((url) => {
   // return [{ coord: Cartesian, url: url }, { coord: Cartesian, url: url }, etc.]
   // {coord: Cartesian3.fromDegrees(Number(url.lng), Number(url.lat), 100), url: url}
 
-  return {coord: Cartesian3.fromDegrees(Number(url.lng), Number(url.lat), 100), url:url}
+  return {coord: Cartesian3.fromDegrees(Number(url.longitude), Number(url.latitude), 100), url:url}
 })
 console.log(positions)
 
 const searchOptions = urls.map((option) => {
-  return {name: option.name, genre: option.tags, city: option.state, country: option.country, url: option.url, lng: option.lng, lat: option.lat}
+  return {name: option.name, genre: option.tags, city: option.state, country: option.country, url: option.url, lng: option.longitude, lat: option.latitude}
 })
 
 //const Credit = () => <div>Hello</div>
@@ -37,10 +37,10 @@ class Radioplayer extends Component {
       e.preventDefault()
     }
     
-    var x = document.getElementsByClassName("cesium-viewer-toolbar")[0].firstChild.firstChild.firstChild; 
-    x.focus()
-    x.keepExpanded = true;
-    x.value = `${data.lng}, ${data.lat}`
+    // var x = document.getElementsByClassName("cesium-viewer-toolbar")[0].firstChild.firstChild.firstChild; 
+    // x.focus()
+    // x.keepExpanded = true;
+    // x.value = `${data.longitude}, ${data.latitude}`
 
     // setTimeout(function(){
       var txtbox = document.getElementsByClassName("cesium-geocoder-searchButton")[0]
