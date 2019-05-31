@@ -5,11 +5,12 @@ import "./App.css";
 import FavoriteList from "./FavoriteList.js";
 
 import { Viewer, Entity } from "resium";
-import { Cartesian3 } from "cesium";
+import { Cartesian3, Color } from "cesium";
 import {urls} from "./urls"
 
 
-const pointGraphics = { pixelSize: 2};
+const pointGraphics = { pixelSize: 2, 
+  color: Color.RED};
 const positions = urls.map((url) => {
   // TODO: instead of returning [Cartesian, Cartesian, etc.]
   // return [{ coord: Cartesian, url: url }, { coord: Cartesian, url: url }, etc.]
@@ -54,11 +55,6 @@ class Radioplayer extends Component {
     // x.focus()
     // x.keepExpanded = true;
     // x.value = `${data.longitude}, ${data.latitude}`
-
-    var x = document.getElementsByClassName("cesium-viewer-toolbar")[0].firstChild.firstChild.firstChild; 
-    x.focus()
-    x.keepExpanded = true;
-    x.value = `${data.lng}, ${data.lat}`
     var txtbox = document.getElementsByClassName("cesium-geocoder-searchButton")[0]
     txtbox.click()
     console.log("the data is:", data)
@@ -148,6 +144,9 @@ console.log("options:", options)
     <ReactPlayer className='react-player' url={this.state.url} controls={true} playing={true}/>
 
     <Viewer 
+    pointGraphics = {{ pixelSize: 2,
+    color: Color.red
+    }}
     full={true}
     token={process.env.REACT_APP_CTOKEN}
     navigationHelpButton={false}
