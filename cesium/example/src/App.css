@@ -39,31 +39,32 @@
   }
 }
 
-.dropbtn {
+#dropbtn {
   background-color: black;
   color: white;
   padding: 16px;
   font-size: 16px;
   border: none;
   cursor: pointer;
-  height: 40px
+  height: 40px;
+  background: transparent;
 }
 
-.dropbtn:hover, .dropbtn:focus {
+#dropbtn:hover, #dropbtn:focus {
   background-color: hsl(227, 32%, 11%);
 }
 
 #myDropdown {
-  overflow-x: hidden;
-  overflow-y: scroll;
-  height:300px;
+  overflow: hidden;
+  height:250px;
   width:100%;
   margin-top: -40px;
-  background-color: rgba(255, 255, 255, 0.4);
+  background: rgba(0,0,0,0.2);
+  border-bottom-right-radius: 10px
 }
 
 #myInput {
-  border-box: box-sizing;
+  box-sizing: border-box;
   background-position: 14px 12px;
   background-repeat: no-repeat;
   font-size: 16px;
@@ -71,9 +72,11 @@
   border: none;
   border-bottom: 1px solid #ddd;
   width: 100%;
+  background: transparent;
+  color: white;
 }
 
-#myInput:focus {outline: 3px solid #ddd;}
+#myInput:focus {outline: none};
 
 .dropdown {
   position: relative;
@@ -86,12 +89,12 @@
   background-color: #f6f6f6;
   min-width: 230px;
   overflow: auto;
-  border: 1px solid #ddd;
   z-index: 1;
 }
 
 .dropdown-content a {
-  color: black;
+  color: white;
+  font-family: sans-serif;
   padding: 12px 16px;
   text-decoration: none;
   display: block;
@@ -109,7 +112,7 @@
   top: 0;
   left: 0;
   z-index: 1;
-  min-width: 300px
+  min-width: 350px
 }
 
 .fav-btn {
@@ -119,9 +122,44 @@
 	justify-content: center;
   align-items: center;
   position: absolute;
-  top: 0;
-  left: 300px;
+  top: 100px;
+  right: 10px;
   color:white;
   background-color: black;
   z-index: 1;
+}
+
+.broadcast-btn {
+  font-size: 25px;
+	display:flex;
+	height: 40px;
+	justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 50px;
+  right: 10px;
+  color:white;
+  z-index: 1;
+}
+
+.fas.fa-times {
+  font-size: 25px;
+	display:flex;
+	height: 40px;
+	justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  color:white;
+  z-index: 1;
+}
+
+.options {
+  overflow-y: scroll;
+  height: 100px;
+  background: transparent;
+  overflow-y: auto;
+  background: rgba(0,0,0,0.2);
+  border-bottom-right-radius: 10px;
 }
