@@ -9,7 +9,7 @@ import { Cartesian3 } from "cesium";
 import {urls} from "./urls"
 
 
-const pointGraphics = { pixelSize: 10 };
+const pointGraphics = { pixelSize: 2};
 const positions = urls.map((url) => {
   // TODO: instead of returning [Cartesian, Cartesian, etc.]
   // return [{ coord: Cartesian, url: url }, { coord: Cartesian, url: url }, etc.]
@@ -176,7 +176,6 @@ console.log("options:", options)
         <div className="fav-btn">
           <i onClick={() => this.favoritesHandler()} className="far fa-heart"></i>
         </div>
-        
     </Viewer>
 
     <h1>STATIONS FROM API</h1>
