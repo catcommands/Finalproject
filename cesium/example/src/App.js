@@ -43,7 +43,7 @@ class Radioplayer extends Component {
       stations: [],
       showSearch:false,
       favorites: [],
-      currentStation: null,
+      currentStation: {name: ""},
     };
   }
   onClick = (data, e) => {
@@ -62,40 +62,38 @@ class Radioplayer extends Component {
     //this.toggleSearchList();
   }
 
-
-
   componentDidMount() {
     this.setState({ isLoading: true });
 
-  //   if (localStorage.getItem('favorites') !== null) {
-  //     this.state.favorites = JSON.parse(localStorage.getItem('favorites'))
-  //   } else {
-  //     localStorage.setItem("favorites", this.state.name);
-  //   }
-  //   // Save the favoriteCart info when the user close the window
-  // window.addEventListener('beforeunload', (event) => {
-  //   localStorage.setItem('favorites', null);
-  //   localStorage.setItem('favorites', JSON.stringify(this.state.favcart));
-  // });
-  }
+    const favorites = localStorage.getItem('favorites')
 
-  favoritesHandler = (data, e) => {
-    if (e) {
-      e.preventDefault()
+    if (favorites) {
+      this.setState({favorites: JSON.parse(favorites)})
     }
-    console.log("the data is:", data)
-    this.setState({ favorites: this.state.favorites})
-    console.log("favorites: ", this.state.favorites);
   }
 
+
+  favoritesHandler = (e) => {
+    e.preventDefault()
+
+    const favorites = JSON.parse(localStorage.getItem('favorites'))
+
+    if (favorites) { 
+      favorites.push(this.state.currentStation)
+      localStorage.setItem("favorites", JSON.stringify(favorites))
+    } else {
+      localStorage.setItem("favorites", JSON.stringify([this.state.currentStation]))
+    }
+    this.setState({ 
+      favorites: [...this.state.favorites, this.state.currentStation]
+    })
+  }
  
   toggleSearchList() {
       if (!this.state.showSearch)
         this.setState({showSearch: true})
       else
         this.setState({showSearch: false})
-
-  
   }
   
   filterFunction() {
@@ -122,21 +120,18 @@ clearFavCart(){
 }
 
 render() {
-  console.log("localstorage is:", localStorage)
-  localStorage.setItem("favorites", JSON.stringify([]))
-
-const entities = positions.map((position, i) => { 
-  return <Entity key={i} position={position.coord} point={pointGraphics} onClick={() => this.onClick(position.url)}/>
-})
-  console.log("Entities:", entities)
-  // TODO: make a const that loops through the urls
-  // and returns an a tag <a href="">{url.name}</a>
-  // for each url
-const options = searchOptions.map((element, i) => {
-  console.log("Element is:", element)
-  return <a key={i} href="" onClick={(e) => this.onClick(element, e)}>{element.name} {element.country} {element.city} {element.language}  {element.genre} </a>
-})
-console.log("options:", options)
+  const entities = positions.map((position, i) => { 
+    return <Entity key={i} position={position.coord} point={pointGraphics} onClick={() => this.onClick(position.url)}/>
+  })
+    console.log("Entities:", entities)
+    // TODO: make a const that loops through the urls
+    // and returns an a tag <a href="">{url.name}</a>
+    // for each url
+  const options = searchOptions.map((element, i) => {
+    console.log("Element is:", element)
+    return <a key={i} href="" onClick={(e) => this.onClick(element, e)}>{element.name} {element.country} {element.city} {element.language}  {element.genre} </a>
+  })
+  console.log("options:", options)
 
 //Cesium.IonImageryProvider.defaultAccessToken = process.env.REACT_APP_CTOKEN
   return (
@@ -175,8 +170,8 @@ console.log("options:", options)
       <FavoriteList favorites={this.state.favorites} />
 
       {entities}
-        <div className="fav-btn">
-          <i onClick={() => this.favoritesHandler()} className="far fa-heart"></i>
+        <div className="fav-btn" onClick={this.favoritesHandler}>
+          <i className="far fa-heart"></i>
         </div>
 
         <div className="list-btn">
@@ -193,6 +188,10 @@ console.log("options:", options)
 
         <div className="broadcast-btn">
           <i className="fas fa-broadcast-tower"></i>
+        </div>
+
+        <div className="currentStation">
+          {this.state.currentStation.name}
         </div>
   
     </Viewer>
