@@ -160,12 +160,15 @@ console.log("options:", options)
     cesium-viewer-bottom={false}>
 
       <div className="searchbar">
-        <button onClick={() => this.toggleSearchList()} className="dropbtn">Search radio stations</button>
+        
+        <i onClick={() => this.toggleSearchList()} id="dropbtn" className="fab fa-searchengin"></i>
         { this.state.showSearch &&
         <div id="myDropdown" className="dropdown-content">
-          <input type="text" placeholder="Search by name, genre, city or country" id="myInput" onKeyUp={() => this.filterFunction()} />
-          <button onClick= {() => this.toggleSearchList()} >Cancel</button>
+          <input type="text" placeholder="Search by name, genre, city or country" id="myInput" autocomplete="off" onKeyUp={() => this.filterFunction()} />
+          <i onClick= {() => this.toggleSearchList()} className="fas fa-times"></i>
+          <div className="options">
           {options}
+          </div>
         </div>
         }
       </div>
@@ -176,6 +179,23 @@ console.log("options:", options)
         <div className="fav-btn">
           <i onClick={() => this.favoritesHandler()} className="far fa-heart"></i>
         </div>
+
+        <div className="list-btn">
+          <i className="fas fa-list"></i>
+        </div>
+
+        <div className="zoomin-btn">
+          <i class="fas fa-search-plus"></i>
+        </div>
+
+        <div className="zoomout-btn">
+          <i class="fas fa-search-minus"></i>
+        </div>
+
+        <div className="broadcast-btn">
+          <i className="fas fa-broadcast-tower"></i>
+        </div>
+  
     </Viewer>
 
     <h1>STATIONS FROM API</h1>
