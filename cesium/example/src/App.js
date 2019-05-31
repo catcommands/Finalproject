@@ -8,8 +8,8 @@ import { Cartesian3, Color } from "cesium";
 import {urls} from "./urls"
 
 
-const pointGraphics = { pixelSize: 2, 
-  color: Color.YELLO};
+const pointGraphics = { pixelSize: 4, 
+  color: Color.YELLOWGREEN};
 const positions = urls.map((url) => {
   return {coord: Cartesian3.fromDegrees(Number(url.longitude), Number(url.latitude), 100), url:url}
 })
@@ -115,7 +115,7 @@ console.log("options:", options)
 
     <Viewer 
     pointGraphics = {{ pixelSize: 2,
-    color: Color.yello
+    color: Color.yellogreen
     }}
     full={true}
     token={process.env.REACT_APP_CTOKEN}
