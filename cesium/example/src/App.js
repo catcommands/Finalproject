@@ -3,36 +3,22 @@ import ReactPlayer from 'react-player'
 import { hot } from "react-hot-loader/root";
 import "./App.css";
 import FavoriteList from "./FavoriteList.js";
-
 import { Viewer, Entity } from "resium";
 import { Cartesian3, Color } from "cesium";
 import {urls} from "./urls"
 
 
 const pointGraphics = { pixelSize: 2, 
-  color: Color.RED};
+  color: Color.YELLO};
 const positions = urls.map((url) => {
-  // TODO: instead of returning [Cartesian, Cartesian, etc.]
-  // return [{ coord: Cartesian, url: url }, { coord: Cartesian, url: url }, etc.]
-  // {coord: Cartesian3.fromDegrees(Number(url.lng), Number(url.lat), 100), url: url}
-
   return {coord: Cartesian3.fromDegrees(Number(url.longitude), Number(url.latitude), 100), url:url}
-
- // return {coord: Cartesian3.fromDegrees(Number(url.lng), Number(url.lat), 100), url:url}
-
 })
-// console.log(positions)
 
 const searchOptions = urls.map((option) => {
-
   return {name: option.name, genre: option.tags, city: option.state, country: option.country, url: option.url, lng: option.longitude, lat: option.latitude}
-
-//  return {name: option.name, genre: option.tags, city: option.state, country: option.country, language: option.language, url: option.url, lng: option.lng, lat: option.lat}
 
 })
 console.log("searchOptions object: ", searchOptions)
-
-//const Credit = () => <div>Hello</div>
 class Radioplayer extends Component {
   constructor (props) {
     super(props);
@@ -66,17 +52,6 @@ class Radioplayer extends Component {
 
   componentDidMount() {
     this.setState({ isLoading: true });
-
-  //   if (localStorage.getItem('favorites') !== null) {
-  //     this.state.favorites = JSON.parse(localStorage.getItem('favorites'))
-  //   } else {
-  //     localStorage.setItem("favorites", this.state.name);
-  //   }
-  //   // Save the favoriteCart info when the user close the window
-  // window.addEventListener('beforeunload', (event) => {
-  //   localStorage.setItem('favorites', null);
-  //   localStorage.setItem('favorites', JSON.stringify(this.state.favcart));
-  // });
   }
 
   favoritesHandler = (data, e) => {
@@ -113,8 +88,7 @@ class Radioplayer extends Component {
       }
     }
   }
-  
-  // Resets the localStorage to an empty object, eliminating all items on it
+
 clearFavCart(){
   localStorage.setItem('favorites', null);
   this.state.favorites = [];
@@ -129,23 +103,19 @@ const entities = positions.map((position, i) => {
   return <Entity key={i} position={position.coord} point={pointGraphics} onClick={() => this.onClick(position.url)}/>
 })
   console.log("Entities:", entities)
-  // TODO: make a const that loops through the urls
-  // and returns an a tag <a href="">{url.name}</a>
-  // for each url
 const options = searchOptions.map((element, i) => {
   console.log("Element is:", element)
   return <a key={i} href="" onClick={(e) => this.onClick(element, e)}>{element.name} {element.country} {element.city} {element.language}  {element.genre} </a>
 })
 console.log("options:", options)
 
-//Cesium.IonImageryProvider.defaultAccessToken = process.env.REACT_APP_CTOKEN
   return (
     <div className="Radioplayer">
     <ReactPlayer className='react-player' url={this.state.url} controls={true} playing={true}/>
 
     <Viewer 
     pointGraphics = {{ pixelSize: 2,
-    color: Color.red
+    color: Color.yello
     }}
     full={true}
     token={process.env.REACT_APP_CTOKEN}
@@ -156,7 +126,8 @@ console.log("options:", options)
     vrButton={false}
     cesium-credit-logoContainer={false}
     cesium-credit-textContainer={false}
-    cesium-viewer-bottom={false}>
+    cesium-viewer-bottom={false}
+    >
 
       <div className="searchbar">
         
@@ -204,3 +175,5 @@ console.log("options:", options)
 }
 
 export default hot(Radioplayer);
+
+
