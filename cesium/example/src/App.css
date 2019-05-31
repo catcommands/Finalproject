@@ -218,3 +218,20 @@
   bottom: 80px;
   left: 300px;
 }
+
+.favorites {
+  display:flex;
+  height: 40px;
+	justify-content: center;
+  align-items: center;
+  position: absolute;
+  color:white;
+  background-color: black;
+  z-index: 1;
+  bottom: 80px;
+  right: 10px;
+}
+
+.clearFav-btn {
+  font-size: 30px;
+}

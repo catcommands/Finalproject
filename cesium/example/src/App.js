@@ -125,10 +125,11 @@ class Radioplayer extends Component {
   }
   
   // Resets the localStorage to an empty object, eliminating all items on it
-// clearFavorites(){
-//   localStorage.setItem('favorites', null);
-//   this.state.favorites = [];
-// }
+clearFavorites = (e) => {
+  e.preventDefault()
+  localStorage.setItem('favorites', null);
+  this.state.favorites = [];
+}
 
 render() {
   const entities = positions.map((position, i) => { 
@@ -147,26 +148,36 @@ render() {
 //Cesium.IonImageryProvider.defaultAccessToken = process.env.REACT_APP_CTOKEN
   return (
     <div className="Radioplayer">
-    <ReactPlayer muted={this.state.muted} className='react-player' url={this.state.url} controls={true} playing={true}/>
+    <ReactPlayer 
+      muted={this.state.muted} 
+      className='react-player' 
+      url={this.state.url} 
+      controls={true} 
+      playing={true}
+    />
 
     <Viewer 
-    pointGraphics = {{ pixelSize: 2,
-    color: Color.red
-    }}
-    full={true}
-    token={process.env.REACT_APP_CTOKEN}
-    navigationHelpButton={false}
-    selectionIndicator={false}
-    navigationInstructionsInitiallyVisible={false}
-    timeline={false}
-    vrButton={false}
-    cesium-credit-logoContainer={false}
-    cesium-credit-textContainer={false}
-    cesium-viewer-bottom={false}>
+      pointGraphics = {{ pixelSize: 2,
+      color: Color.red
+      }}
+      full={true}
+      token={process.env.REACT_APP_CTOKEN}
+      navigationHelpButton={false}
+      selectionIndicator={false}
+      navigationInstructionsInitiallyVisible={false}
+      timeline={false}
+      vrButton={false}
+      cesium-credit-logoContainer={false}
+      cesium-credit-textContainer={false}
+      cesium-viewer-bottom={false}>
 
       <div className="searchbar">
         
-        <i onClick={() => this.toggleSearchList()} id="dropbtn" className="fab fa-searchengin"></i>
+        <i 
+        onClick={() => this.toggleSearchList()} 
+        id="dropbtn" 
+        className="fab fa-searchengin"></i>
+
         { this.state.showSearch &&
         <div id="myDropdown" className="dropdown-content">
           <input type="text" placeholder="Search by name, genre, city or country" id="myInput" autocomplete="off" onKeyUp={() => this.filterFunction()} />
@@ -201,9 +212,18 @@ render() {
         </div>
 
         {this.state.showFavorites && 
-          <div className="favorites">{JSON.stringify(this.state.favorites)}</div>
+          <div className="favorites">
+              {this.state.favorites.map((favorite) =>
+              <ul>
+                <li key={favorite.name}>{favorite.name}</li>  
+              </ul>
+              )
+              }
+              <div className="clearFav-btn" onClick={this.clearFavorites}>
+                  <i class="fas fa-minus-circle"></i>
+              </div>
+          </div>
         }
-        
 
         <div className="currentStation">
           {this.state.currentStation.name}
