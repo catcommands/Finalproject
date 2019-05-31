@@ -37,12 +37,14 @@ class Radioplayer extends Component {
   constructor (props) {
     super(props);
     this.state = {
+      muted: false,
       url: "",
       coords: positions,
       isLoading: false,
       stations: [],
       showSearch:false,
       favorites: [],
+      showFavorites: false,
       currentStation: {name: ""},
     };
   }
@@ -57,7 +59,7 @@ class Radioplayer extends Component {
     // x.value = `${data.longitude}, ${data.latitude}`
     var txtbox = document.getElementsByClassName("cesium-geocoder-searchButton")[0]
     txtbox.click()
-    console.log("the data is:", data)
+    // console.log("the data is:", data)
     this.setState({ url: data.url, currentStation: data, showSearch: false})
     //this.toggleSearchList();
   }
@@ -89,6 +91,16 @@ class Radioplayer extends Component {
     })
   }
  
+  broadcastHandler = (e) => {
+    e.preventDefault()
+    this.setState({muted: !this.state.muted})
+  }
+
+  toggleFavorites = (e) => {
+    e.preventDefault()
+    this.setState({showFavorites: !this.state.showFavorites})
+  }
+
   toggleSearchList() {
       if (!this.state.showSearch)
         this.setState({showSearch: true})
@@ -113,30 +125,29 @@ class Radioplayer extends Component {
   }
   
   // Resets the localStorage to an empty object, eliminating all items on it
-clearFavCart(){
-  localStorage.setItem('favorites', null);
-  this.state.favorites = [];
-  window.location.reload();
-}
+// clearFavorites(){
+//   localStorage.setItem('favorites', null);
+//   this.state.favorites = [];
+// }
 
 render() {
   const entities = positions.map((position, i) => { 
     return <Entity key={i} position={position.coord} point={pointGraphics} onClick={() => this.onClick(position.url)}/>
   })
-    console.log("Entities:", entities)
+    // console.log("Entities:", entities)
     // TODO: make a const that loops through the urls
     // and returns an a tag <a href="">{url.name}</a>
     // for each url
   const options = searchOptions.map((element, i) => {
-    console.log("Element is:", element)
+    // console.log("Element is:", element)
     return <a key={i} href="" onClick={(e) => this.onClick(element, e)}>{element.name} {element.country} {element.city} {element.language}  {element.genre} </a>
   })
-  console.log("options:", options)
+  // console.log("options:", options)
 
 //Cesium.IonImageryProvider.defaultAccessToken = process.env.REACT_APP_CTOKEN
   return (
     <div className="Radioplayer">
-    <ReactPlayer className='react-player' url={this.state.url} controls={true} playing={true}/>
+    <ReactPlayer muted={this.state.muted} className='react-player' url={this.state.url} controls={true} playing={true}/>
 
     <Viewer 
     pointGraphics = {{ pixelSize: 2,
@@ -167,14 +178,13 @@ render() {
         }
       </div>
       
-      <FavoriteList favorites={this.state.favorites} />
-
       {entities}
         <div className="fav-btn" onClick={this.favoritesHandler}>
           <i className="far fa-heart"></i>
         </div>
 
-        <div className="list-btn">
+        <div className="list-btn" onClick={this.toggleFavorites}>
+
           <i className="fas fa-list"></i>
         </div>
 
@@ -186,9 +196,14 @@ render() {
           <i class="fas fa-search-minus"></i>
         </div>
 
-        <div className="broadcast-btn">
+        <div className="broadcast-btn" onClick={this.broadcastHandler}>
           <i className="fas fa-broadcast-tower"></i>
         </div>
+
+        {this.state.showFavorites && 
+          <div className="favorites">{JSON.stringify(this.state.favorites)}</div>
+        }
+        
 
         <div className="currentStation">
           {this.state.currentStation.name}

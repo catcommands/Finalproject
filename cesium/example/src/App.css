@@ -207,5 +207,14 @@
 }
 
 .currentStation {
-  height:100px;
+  display:flex;
+	height: 40px;
+	justify-content: center;
+  align-items: center;
+  position: absolute;
+  color:white;
+  background-color: black;
+  z-index: 1;
+  bottom: 80px;
+  left: 300px;
 }
