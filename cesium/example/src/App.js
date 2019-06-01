@@ -23,13 +23,15 @@ class Radioplayer extends Component {
   constructor (props) {
     super(props);
     this.state = {
+      muted: false,
       url: "",
       coords: positions,
       isLoading: false,
       stations: [],
       showSearch:false,
       favorites: [],
-      currentStation: null,
+      showFavorites: false,
+      currentStation: {name: ""},
     };
   }
   onClick = (data, e) => {
@@ -43,34 +45,53 @@ class Radioplayer extends Component {
     // x.value = `${data.longitude}, ${data.latitude}`
     var txtbox = document.getElementsByClassName("cesium-geocoder-searchButton")[0]
     txtbox.click()
-    console.log("the data is:", data)
+    // console.log("the data is:", data)
     this.setState({ url: data.url, currentStation: data, showSearch: false})
     //this.toggleSearchList();
   }
 
-
-
   componentDidMount() {
     this.setState({ isLoading: true });
-  }
 
-  favoritesHandler = (data, e) => {
-    if (e) {
-      e.preventDefault()
+    const favorites = localStorage.getItem('favorites')
+
+    if (favorites) {
+      this.setState({favorites: JSON.parse(favorites)})
     }
-    console.log("the data is:", data)
-    this.setState({ favorites: this.state.favorites})
-    console.log("favorites: ", this.state.favorites);
   }
 
+
+  favoritesHandler = (e) => {
+    e.preventDefault()
+
+    const favorites = JSON.parse(localStorage.getItem('favorites'))
+
+    if (favorites) { 
+      favorites.push(this.state.currentStation)
+      localStorage.setItem("favorites", JSON.stringify(favorites))
+    } else {
+      localStorage.setItem("favorites", JSON.stringify([this.state.currentStation]))
+    }
+    this.setState({ 
+      favorites: [...this.state.favorites, this.state.currentStation]
+    })
+  }
  
+  broadcastHandler = (e) => {
+    e.preventDefault()
+    this.setState({muted: !this.state.muted})
+  }
+
+  toggleFavorites = (e) => {
+    e.preventDefault()
+    this.setState({showFavorites: !this.state.showFavorites})
+  }
+
   toggleSearchList() {
       if (!this.state.showSearch)
         this.setState({showSearch: true})
       else
         this.setState({showSearch: false})
-
-  
   }
   
   filterFunction() {
@@ -88,30 +109,37 @@ class Radioplayer extends Component {
       }
     }
   }
-
-clearFavCart(){
+  
+  // Resets the localStorage to an empty object, eliminating all items on it
+clearFavorites = (e) => {
+  e.preventDefault()
   localStorage.setItem('favorites', null);
   this.state.favorites = [];
-  window.location.reload();
 }
 
 render() {
-  console.log("localstorage is:", localStorage)
-  localStorage.setItem("favorites", JSON.stringify([]))
-
-const entities = positions.map((position, i) => { 
-  return <Entity key={i} position={position.coord} point={pointGraphics} onClick={() => this.onClick(position.url)}/>
-})
-  console.log("Entities:", entities)
-const options = searchOptions.map((element, i) => {
-  console.log("Element is:", element)
-  return <a key={i} href="" onClick={(e) => this.onClick(element, e)}>{element.name} {element.country} {element.city} {element.language}  {element.genre} </a>
-})
-console.log("options:", options)
+  const entities = positions.map((position, i) => { 
+    return <Entity key={i} position={position.coord} point={pointGraphics} onClick={() => this.onClick(position.url)}/>
+  })
+    // console.log("Entities:", entities)
+    // TODO: make a const that loops through the urls
+    // and returns an a tag <a href="">{url.name}</a>
+    // for each url
+  const options = searchOptions.map((element, i) => {
+    // console.log("Element is:", element)
+    return <a key={i} href="" onClick={(e) => this.onClick(element, e)}>{element.name} {element.country} {element.city} {element.language}  {element.genre} </a>
+  })
+  // console.log("options:", options)
 
   return (
     <div className="Radioplayer">
-    <ReactPlayer className='react-player' url={this.state.url} controls={true} playing={true}/>
+    <ReactPlayer 
+      muted={this.state.muted} 
+      className='react-player' 
+      url={this.state.url} 
+      controls={true} 
+      playing={true}
+    />
 
     <Viewer 
     pointGraphics = {{ pixelSize: 2,
@@ -131,7 +159,11 @@ console.log("options:", options)
 
       <div className="searchbar">
         
-        <i onClick={() => this.toggleSearchList()} id="dropbtn" className="fab fa-searchengin"></i>
+        <i 
+        onClick={() => this.toggleSearchList()} 
+        id="dropbtn" 
+        className="fab fa-searchengin"></i>
+
         { this.state.showSearch &&
         <div id="myDropdown" className="dropdown-content">
           <input type="text" placeholder="Search by name, genre, city or country" id="myInput" autocomplete="off" onKeyUp={() => this.filterFunction()} />
@@ -143,14 +175,13 @@ console.log("options:", options)
         }
       </div>
       
-      <FavoriteList favorites={this.state.favorites} />
-
       {entities}
-        <div className="fav-btn">
-          <i onClick={() => this.favoritesHandler()} className="far fa-heart"></i>
+        <div className="fav-btn" onClick={this.favoritesHandler}>
+          <i className="far fa-heart"></i>
         </div>
 
-        <div className="list-btn">
+        <div className="list-btn" onClick={this.toggleFavorites}>
+
           <i className="fas fa-list"></i>
         </div>
 
@@ -162,8 +193,26 @@ console.log("options:", options)
           <i class="fas fa-search-minus"></i>
         </div>
 
-        <div className="broadcast-btn">
+        <div className="broadcast-btn" onClick={this.broadcastHandler}>
           <i className="fas fa-broadcast-tower"></i>
+        </div>
+
+        {this.state.showFavorites && 
+          <div className="favorites">
+              {this.state.favorites.map((favorite) =>
+              <ul>
+                <li key={favorite.name}>{favorite.name}</li>  
+              </ul>
+              )
+              }
+              <div className="clearFav-btn" onClick={this.clearFavorites}>
+                  <i class="fas fa-minus-circle"></i>
+              </div>
+          </div>
+        }
+
+        <div className="currentStation">
+          {this.state.currentStation.name}
         </div>
   
     </Viewer>
