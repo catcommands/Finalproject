@@ -3,13 +3,15 @@ import ReactPlayer from 'react-player'
 import { hot } from "react-hot-loader/root";
 import "./App.css";
 import FavoriteList from "./FavoriteList.js";
-import { Viewer, Entity } from "resium";
-import { Cartesian3, Color } from "cesium";
+import { Viewer, Entity} from "resium";
+import { Cartesian3, Color, CameraFlyTo} from "cesium";
 import {urls} from "./urls"
+import { storiesOf } from '@storybook/react';
+
 
 
 const pointGraphics = { pixelSize: 4, 
-  color: Color.YELLOWGREEN};
+  color: Color.LAWNGREEN};
 const positions = urls.map((url) => {
   return {coord: Cartesian3.fromDegrees(Number(url.longitude), Number(url.latitude), 100), url:url}
 })
@@ -143,7 +145,7 @@ render() {
 
     <Viewer 
     pointGraphics = {{ pixelSize: 2,
-    color: Color.yellogreen
+    color: Color.greenyellow
     }}
     full={true}
     token={process.env.REACT_APP_CTOKEN}
@@ -155,6 +157,17 @@ render() {
     cesium-credit-logoContainer={false}
     cesium-credit-textContainer={false}
     cesium-viewer-bottom={false}
+    
+    <Globe enableLighting />
+    <Clock
+      startTime={Cesium.JulianDate.fromIso8601('2013-12-25')}
+      currentTime={Cesium.JulianDate.fromIso8601('2013-12-25')}
+      stopTime={Cesium.JulianDate.fromIso8601('2013-12-26')}
+      clockRange={Cesium.ClockRange.LOOP_STOP} // loop when we hit the end time
+      clockStep={Cesium.ClockStep.SYSTEM_CLOCK_MULTIPLIER}
+      multiplier={4000} // how much time to advance each tick
+      shouldAnimate // Animation on by default
+    />
     >
 
       <div className="searchbar">
@@ -214,7 +227,6 @@ render() {
         <div className="currentStation">
           {this.state.currentStation.name}
         </div>
-  
     </Viewer>
 
     <h1>STATIONS FROM API</h1>
