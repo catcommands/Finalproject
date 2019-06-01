@@ -47,10 +47,6 @@
   /* height: 20px; */
 }
 
-#dropbtn:hover, #dropbtn:focus {
-  background-color: hsl(227, 32%, 11%);
-}
-
 #myDropdown {
   overflow: hidden;
   height:250px;
