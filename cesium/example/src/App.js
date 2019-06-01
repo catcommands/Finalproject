@@ -162,7 +162,7 @@ render() {
         <i 
         onClick={() => this.toggleSearchList()} 
         id="dropbtn" 
-        className="fab fa-searchengin"></i>
+        className="cesium-button cesium-toolbar-button fab fa-searchengin"></i>
 
         { this.state.showSearch &&
         <div id="myDropdown" className="dropdown-content">
@@ -176,24 +176,24 @@ render() {
       </div>
       
       {entities}
-        <div className="fav-btn" onClick={this.favoritesHandler}>
+        <div className="cesium-button cesium-toolbar-button fav-btn" onClick={this.favoritesHandler}>
           <i className="far fa-heart"></i>
         </div>
 
-        <div className="list-btn" onClick={this.toggleFavorites}>
+        <div className="cesium-button cesium-toolbar-button list-btn" onClick={this.toggleFavorites}>
 
           <i className="fas fa-list"></i>
         </div>
 
-        <div className="zoomin-btn">
+        <div className="cesium-button cesium-toolbar-button zoomin-btn">
           <i class="fas fa-search-plus"></i>
         </div>
 
-        <div className="zoomout-btn">
+        <div className="cesium-button cesium-toolbar-button zoomout-btn">
           <i class="fas fa-search-minus"></i>
         </div>
 
-        <div className="broadcast-btn" onClick={this.broadcastHandler}>
+        <div className="cesium-button cesium-toolbar-button broadcast-btn" onClick={this.broadcastHandler}>
           <i className="fas fa-broadcast-tower"></i>
         </div>
 

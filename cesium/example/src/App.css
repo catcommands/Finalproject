@@ -40,14 +40,11 @@
 }
 
 #dropbtn {
-  background-color: black;
-  color: white;
-  padding: 16px;
-  font-size: 30px;
+  padding: 5px;
+  font-size: 25px;
   border: none;
   cursor: pointer;
-  height: 20px;
-  background: transparent;
+  /* height: 20px; */
 }
 
 #dropbtn:hover, #dropbtn:focus {
@@ -118,27 +115,22 @@
 .fav-btn {
   font-size: 30px;
 	display:flex;
-	height: 40px;
 	justify-content: center;
   align-items: center;
   position: absolute;
   top: 100px;
   right: 10px;
-  color:white;
-  background-color: black;
   z-index: 1;
 }
 
 .broadcast-btn {
   font-size: 25px;
 	display:flex;
-	height: 40px;
 	justify-content: center;
   align-items: center;
   position: absolute;
   top: 50px;
   right: 10px;
-  color:white;
   z-index: 1;
 }
 
@@ -167,42 +159,33 @@
 .list-btn {
   font-size: 30px;
 	display:flex;
-	height: 40px;
 	justify-content: center;
   align-items: center;
   position: absolute;
   top: 150px;
   right: 10px;
-  color:white;
-  background-color: black;
   z-index: 1;
 }
 
 .zoomin-btn {
   font-size: 30px;
 	display:flex;
-	height: 40px;
 	justify-content: center;
   align-items: center;
   position: absolute;
   top: 200px;
   right: 10px;
-  color:white;
-  background-color: black;
   z-index: 1;
 }
 
 .zoomout-btn {
   font-size: 30px;
 	display:flex;
-	height: 40px;
 	justify-content: center;
   align-items: center;
   position: absolute;
   top: 250px;
   right: 10px;
-  color:white;
-  background-color: black;
   z-index: 1;
 }
 
@@ -213,7 +196,6 @@
   align-items: center;
   position: absolute;
   color:white;
-  background-color: black;
   z-index: 1;
   bottom: 80px;
   left: 300px;
