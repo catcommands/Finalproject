@@ -213,3 +213,18 @@
 .clearFav-btn {
   font-size: 30px;
 }
+
+#broadcast-hover {
+  font-size: 20px;
+  font-family: inherit;
+	display:flex;
+	justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 55px;
+  right: 55px;
+  z-index: 1;
+  color: white;
+}
+
+    

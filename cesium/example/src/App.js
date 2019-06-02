@@ -32,6 +32,7 @@ class Radioplayer extends Component {
       favorites: [],
       showFavorites: false,
       currentStation: {name: ""},
+      isHovering: false,
     };
   }
   onClick = (data, e) => {
@@ -111,10 +112,22 @@ class Radioplayer extends Component {
   }
   
   // Resets the localStorage to an empty object, eliminating all items on it
-clearFavorites = (e) => {
+// clearFavorites = (e) => {
+//   e.preventDefault()
+//   localStorage.setItem('favorites', null);
+//   this.state.favorites = [];
+// }
+
+handleMouseHover = (e) =>  {
   e.preventDefault()
-  localStorage.setItem('favorites', null);
-  this.state.favorites = [];
+  this.setState(this.toggleHoverState);
+}
+
+toggleHoverState = () => {
+  if (!this.state.isHovering)
+        this.setState({isHovering: true})
+      else
+        this.setState({isHovering: false})
 }
 
 render() {
@@ -193,9 +206,14 @@ render() {
           <i class="fas fa-search-minus"></i>
         </div>
 
-        <div className="cesium-button cesium-toolbar-button broadcast-btn" onClick={this.broadcastHandler}>
+        <div 
+          className="cesium-button cesium-toolbar-button broadcast-btn" 
+          onClick={this.broadcastHandler}
+          onMouseEnter={this.handleMouseHover}
+          onMouseLeave={this.handleMouseHover}>
           <i className="fas fa-broadcast-tower"></i>
-        </div>
+        </div >
+        {this.state.isHovering && <div id="broadcast-hover">Sound On/Off</div>}
 
         {this.state.showFavorites && 
         <FavoriteList className="favorites" favorites={this.state.favorites} />
