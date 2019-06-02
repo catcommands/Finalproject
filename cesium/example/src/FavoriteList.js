@@ -12,6 +12,7 @@ class FavoriteList extends Component {
         { this.props.favorites.map((favorite) => {
             return (<Favorite
               currentFavorite={ favorite.name }
+              currentFavUrl={ favorite.url }
             />)
             } 
         )}

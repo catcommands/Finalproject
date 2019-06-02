@@ -198,7 +198,7 @@ render() {
         </div>
 
         {this.state.showFavorites && 
-        <FavoriteList favorites={this.state.favorites} />
+        <FavoriteList className="favorites" favorites={this.state.favorites} />
           // <div className="favorites">
           //     {this.state.favorites.map((favorite) =>
           //     <ul>
