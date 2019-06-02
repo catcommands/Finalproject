@@ -226,7 +226,7 @@ render() {
 
         <div 
           className="cesium-button cesium-toolbar-button list-btn" 
-          onClick={this.toggleFavList}
+          onClick={this.toggleFavorites}
           onMouseEnter={this.handleMouseHoverFavList}
           onMouseLeave={this.handleMouseHoverFavList}>
           <i className="fas fa-list"></i>
