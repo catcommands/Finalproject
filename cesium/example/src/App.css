@@ -239,3 +239,16 @@
   z-index: 1;
   color: white;
 }
+
+#favList-hover {
+  font-size: 20px;
+  font-family: inherit;
+	display:flex;
+	justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 155px;
+  right: 55px;
+  z-index: 1;
+  color: white;
+}

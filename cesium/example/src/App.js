@@ -34,6 +34,7 @@ class Radioplayer extends Component {
       currentStation: {name: ""},
       isHoveringSound: false,
       isHoveringFavorite: false,
+      isHoveringFavList: false,
     };
   }
   onClick = (data, e) => {
@@ -143,6 +144,18 @@ toggleHoverStateFavorite = () => {
         this.setState({isHoveringFavorite: false})
 }
 
+handleMouseHoverFavList = (e) =>  {
+  e.preventDefault()
+  this.setState(this.toggleHoverStateFavList);
+}
+
+toggleHoverStateFavList = () => {
+  if (!this.state.isHoveringFavList)
+        this.setState({isHoveringFavList: true})
+      else
+        this.setState({isHoveringFavList: false})
+}
+
 render() {
   const entities = positions.map((position, i) => { 
     return <Entity key={i} position={position.coord} point={pointGraphics} onClick={() => this.onClick(position.url)}/>
@@ -213,10 +226,12 @@ render() {
 
         <div 
           className="cesium-button cesium-toolbar-button list-btn" 
-          onClick={this.toggleFavorites}>
-
+          onClick={this.toggleFavList}
+          onMouseEnter={this.handleMouseHoverFavList}
+          onMouseLeave={this.handleMouseHoverFavList}>
           <i className="fas fa-list"></i>
         </div>
+        {this.state.isHoveringFavList && <div id="favList-hover">Show Favorites</div>}
 
         <div className="cesium-button cesium-toolbar-button zoomin-btn">
           <i class="fas fa-search-plus"></i>
