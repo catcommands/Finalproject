@@ -32,7 +32,8 @@ class Radioplayer extends Component {
       favorites: [],
       showFavorites: false,
       currentStation: {name: ""},
-      isHovering: false,
+      isHoveringSound: false,
+      isHoveringFavorite: false,
     };
   }
   onClick = (data, e) => {
@@ -118,16 +119,28 @@ class Radioplayer extends Component {
 //   this.state.favorites = [];
 // }
 
-handleMouseHover = (e) =>  {
+handleMouseHoverSound = (e) =>  {
   e.preventDefault()
-  this.setState(this.toggleHoverState);
+  this.setState(this.toggleHoverStateSound);
 }
 
-toggleHoverState = () => {
-  if (!this.state.isHovering)
-        this.setState({isHovering: true})
+toggleHoverStateSound = () => {
+  if (!this.state.isHoveringSound)
+        this.setState({isHoveringSound: true})
       else
-        this.setState({isHovering: false})
+        this.setState({isHoveringSound: false})
+}
+
+handleMouseHoverFavorite = (e) =>  {
+  e.preventDefault()
+  this.setState(this.toggleHoverStateFavorite);
+}
+
+toggleHoverStateFavorite = () => {
+  if (!this.state.isHoveringFavorite)
+        this.setState({isHoveringFavorite: true})
+      else
+        this.setState({isHoveringFavorite: false})
 }
 
 render() {
@@ -189,11 +202,18 @@ render() {
       </div>
       
       {entities}
-        <div className="cesium-button cesium-toolbar-button fav-btn" onClick={this.favoritesHandler}>
+        <div 
+          className="cesium-button cesium-toolbar-button fav-btn" 
+          onClick={this.favoritesHandler}
+          onMouseEnter={this.handleMouseHoverFavorite}
+          onMouseLeave={this.handleMouseHoverFavorite}>
           <i className="far fa-heart"></i>
         </div>
+        {this.state.isHoveringFavorite && <div id="fav-hover">Add Favorite</div>}
 
-        <div className="cesium-button cesium-toolbar-button list-btn" onClick={this.toggleFavorites}>
+        <div 
+          className="cesium-button cesium-toolbar-button list-btn" 
+          onClick={this.toggleFavorites}>
 
           <i className="fas fa-list"></i>
         </div>
@@ -209,11 +229,11 @@ render() {
         <div 
           className="cesium-button cesium-toolbar-button broadcast-btn" 
           onClick={this.broadcastHandler}
-          onMouseEnter={this.handleMouseHover}
-          onMouseLeave={this.handleMouseHover}>
+          onMouseEnter={this.handleMouseHoverSound}
+          onMouseLeave={this.handleMouseHoverSound}>
           <i className="fas fa-broadcast-tower"></i>
         </div >
-        {this.state.isHovering && <div id="broadcast-hover">Sound On/Off</div>}
+        {this.state.isHoveringSound && <div id="broadcast-hover">Sound On/Off</div>}
 
         {this.state.showFavorites && 
         <FavoriteList className="favorites" favorites={this.state.favorites} />
