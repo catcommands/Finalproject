@@ -9,9 +9,9 @@ class FavoriteList extends Component {
   render() {
     return (
       <main className="favorites">
-        { this.props.favorites.map((data) => {
+        { this.props.favorites.map((favorite) => {
             return (<Favorite
-              currentFavorite={ data.content }
+              currentFavorite={ favorite.name }
             />)
             } 
         )}

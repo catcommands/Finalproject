@@ -198,17 +198,18 @@ render() {
         </div>
 
         {this.state.showFavorites && 
-          <div className="favorites">
-              {this.state.favorites.map((favorite) =>
-              <ul>
-                <li key={favorite.name}>{favorite.name}</li>  
-              </ul>
-              )
-              }
-              <div className="clearFav-btn" onClick={this.clearFavorites}>
-                  <i class="fas fa-minus-circle"></i>
-              </div>
-          </div>
+        <FavoriteList favorites={this.state.favorites} />
+          // <div className="favorites">
+          //     {this.state.favorites.map((favorite) =>
+          //     <ul>
+          //       <li key={favorite.name}>{favorite.name}</li>  
+          //     </ul>
+          //     )
+          //     }
+          //     <div className="clearFav-btn" onClick={this.clearFavorites}>
+          //         <i class="fas fa-minus-circle"></i>
+          //     </div>
+          // </div>
         }
 
         <div className="currentStation">
