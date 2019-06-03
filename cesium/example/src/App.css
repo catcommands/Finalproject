@@ -40,18 +40,11 @@
 }
 
 #dropbtn {
-  background-color: black;
-  color: white;
-  padding: 16px;
-  font-size: 30px;
+  padding: 5px;
+  font-size: 25px;
   border: none;
   cursor: pointer;
-  height: 20px;
-  background: transparent;
-}
-
-#dropbtn:hover, #dropbtn:focus {
-  background-color: hsl(227, 32%, 11%);
+  /* height: 20px; */
 }
 
 #myDropdown {
@@ -118,27 +111,22 @@
 .fav-btn {
   font-size: 30px;
 	display:flex;
-	height: 40px;
 	justify-content: center;
   align-items: center;
   position: absolute;
   top: 100px;
   right: 10px;
-  color:white;
-  background-color: black;
   z-index: 1;
 }
 
 .broadcast-btn {
   font-size: 25px;
 	display:flex;
-	height: 40px;
 	justify-content: center;
   align-items: center;
   position: absolute;
   top: 50px;
   right: 10px;
-  color:white;
   z-index: 1;
 }
 
@@ -167,42 +155,33 @@
 .list-btn {
   font-size: 30px;
 	display:flex;
-	height: 40px;
 	justify-content: center;
   align-items: center;
   position: absolute;
   top: 150px;
   right: 10px;
-  color:white;
-  background-color: black;
   z-index: 1;
 }
 
 .zoomin-btn {
   font-size: 30px;
 	display:flex;
-	height: 40px;
 	justify-content: center;
   align-items: center;
   position: absolute;
   top: 200px;
   right: 10px;
-  color:white;
-  background-color: black;
   z-index: 1;
 }
 
 .zoomout-btn {
   font-size: 30px;
 	display:flex;
-	height: 40px;
 	justify-content: center;
   align-items: center;
   position: absolute;
   top: 250px;
   right: 10px;
-  color:white;
-  background-color: black;
   z-index: 1;
 }
 
@@ -213,25 +192,79 @@
   align-items: center;
   position: absolute;
   color:white;
-  background-color: black;
   z-index: 1;
   bottom: 80px;
-  left: 300px;
+  left: 5px;
 }
 
 .favorites {
-  display:flex;
-  height: 40px;
+  display:inline-block;
+  height: 80px;
+  width: 300px;
 	justify-content: center;
   align-items: center;
   position: absolute;
   color:white;
-  background-color: black;
   z-index: 1;
   bottom: 80px;
   right: 10px;
+  overflow-y: scroll;
+  background: transparent;
+  background: rgba(0,0,0,0.2);
+  border-bottom-right-radius: 10px;
+}
+
+.favorites a {
+  color: white;
+  font-family: sans-serif;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .clearFav-btn {
   font-size: 30px;
 }
+
+#broadcast-hover {
+  font-size: 20px;
+  font-family: inherit;
+	display:flex;
+	justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 55px;
+  right: 55px;
+  z-index: 1;
+  color: white;
+}
+
+#fav-hover {
+  font-size: 20px;
+  font-family: inherit;
+	display:flex;
+	justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 105px;
+  right: 55px;
+  z-index: 1;
+  color: white;
+}
+
+#favList-hover {
+  font-size: 20px;
+  font-family: inherit;
+	display:flex;
+	justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 155px;
+  right: 55px;
+  z-index: 1;
+  color: white;
+}
+

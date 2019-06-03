@@ -31,7 +31,13 @@ class Radioplayer extends Component {
       favorites: [],
       showFavorites: false,
       currentStation: {name: ""},
+<<<<<<< HEAD
       showOverlay: true
+=======
+      isHoveringSound: false,
+      isHoveringFavorite: false,
+      isHoveringFavList: false,
+>>>>>>> favorites_list
     };
   }
   onClick = (data, e) => {
@@ -111,10 +117,34 @@ class Radioplayer extends Component {
   }
   
   // Resets the localStorage to an empty object, eliminating all items on it
-clearFavorites = (e) => {
+// clearFavorites = (e) => {
+//   e.preventDefault()
+//   localStorage.setItem('favorites', 'null');
+//   this.state.favorites = [];
+// }
+
+handleMouseHoverSound = (e) =>  {
   e.preventDefault()
-  localStorage.setItem('favorites', null);
-  this.state.favorites = [];
+  this.setState(this.toggleHoverStateSound);
+}
+
+toggleHoverStateSound = () => {
+  if (!this.state.isHoveringSound)
+        this.setState({isHoveringSound: true})
+      else
+        this.setState({isHoveringSound: false})
+}
+
+handleMouseHoverFavorite = (e) =>  {
+  e.preventDefault()
+  this.setState(this.toggleHoverStateFavorite);
+}
+
+toggleHoverStateFavorite = () => {
+  if (!this.state.isHoveringFavorite)
+        this.setState({isHoveringFavorite: true})
+      else
+        this.setState({isHoveringFavorite: false})
 }
 
 removeOverlay = () => {
@@ -137,6 +167,10 @@ render() {
   })
   // console.log("options:", options)
 
+  const favList = this.state.favorites.map((element, i) => {
+    // console.log("Element is:", element)
+    return <a key={i} href="" onClick={(e) => this.onClick(element, e)}>{element.name}  </a>
+  })
   return (
     <div className="Radioplayer">
 
@@ -222,6 +256,62 @@ render() {
           <div className="broadcast-btn" onClick={this.broadcastHandler}>
             <i className="fas fa-broadcast-tower"></i>
           </div>
+      {entities}
+        <div 
+          className="cesium-button cesium-toolbar-button fav-btn" 
+          onClick={this.favoritesHandler}
+          onMouseEnter={this.handleMouseHoverFavorite}
+          onMouseLeave={this.handleMouseHoverFavorite}>
+          <i className="far fa-heart"></i>
+        </div>
+        {this.state.isHoveringFavorite && <div id="fav-hover">Add Favorite</div>}
+
+        <div 
+          className="cesium-button cesium-toolbar-button list-btn" 
+          onClick={this.toggleFavorites}
+          onMouseEnter={this.handleMouseHoverFavList}
+          onMouseLeave={this.handleMouseHoverFavList}>
+          <i className="fas fa-list"></i>
+        </div>
+        {this.state.isHoveringFavList && <div id="favList-hover">Show Favorites</div>}
+
+        <div className="cesium-button cesium-toolbar-button zoomin-btn">
+          <i class="fas fa-search-plus"></i>
+        </div>
+
+        <div className="cesium-button cesium-toolbar-button zoomout-btn">
+          <i class="fas fa-search-minus"></i>
+        </div>
+
+        <div 
+          className="cesium-button cesium-toolbar-button broadcast-btn" 
+          onClick={this.broadcastHandler}
+          onMouseEnter={this.handleMouseHoverSound}
+          onMouseLeave={this.handleMouseHoverSound}>
+          <i className="fas fa-broadcast-tower"></i>
+        </div >
+        {this.state.isHoveringSound && <div id="broadcast-hover">Sound On/Off</div>}
+
+        {this.state.showFavorites && 
+        <div className="favorites">
+          {favList}
+          {/* <div className="clearFav-btn" onClick={this.clearFavorites}>
+              <i class="fas fa-minus-circle"></i>
+          </div> */}
+        </div>
+        // <FavoriteList className="favorites" favorites={this.state.favorites} />
+          // <div className="favorites">
+          //     {this.state.favorites.map((favorite) =>
+          //     <ul>
+          //       <li key={favorite.name}>{favorite.name}</li>  
+          //     </ul>
+          //     )
+          //     }
+          //     <div className="clearFav-btn" onClick={this.clearFavorites}>
+          //         <i class="fas fa-minus-circle"></i>
+          //     </div>
+          // </div>
+        }
 
           {this.state.showFavorites && 
             <div className="favorites">
