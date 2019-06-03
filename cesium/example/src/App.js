@@ -3,12 +3,9 @@ import ReactPlayer from 'react-player'
 import { hot } from "react-hot-loader/root";
 import "./App.css";
 import FavoriteList from "./FavoriteList.js";
-import { Viewer, Entity} from "resium";
-import { Cartesian3, Color, CameraFlyTo} from "cesium";
+import { Camera, Viewer, Entity, Scene, ScreenSpaceCameraController } from "resium";
+import { Cartesian3, Color} from "cesium";
 import {urls} from "./urls"
-import { storiesOf } from '@storybook/react';
-
-
 
 const pointGraphics = { pixelSize: 4, 
   color: Color.LAWNGREEN};
@@ -34,6 +31,7 @@ class Radioplayer extends Component {
       favorites: [],
       showFavorites: false,
       currentStation: {name: ""},
+      showOverlay: true
     };
   }
   onClick = (data, e) => {
@@ -119,6 +117,12 @@ clearFavorites = (e) => {
   this.state.favorites = [];
 }
 
+removeOverlay = () => {
+  this.setState({
+    showOverlay: false,
+  });
+}
+
 render() {
   const entities = positions.map((position, i) => { 
     return <Entity key={i} position={position.coord} point={pointGraphics} onClick={() => this.onClick(position.url)}/>
@@ -135,106 +139,113 @@ render() {
 
   return (
     <div className="Radioplayer">
-    <ReactPlayer 
-      muted={this.state.muted} 
-      className='react-player' 
-      url={this.state.url} 
-      controls={true} 
-      playing={true}
-    />
 
-    <Viewer 
-    pointGraphics = {{ pixelSize: 2,
-    color: Color.greenyellow
-    }}
-    full={true}
-    token={process.env.REACT_APP_CTOKEN}
-    navigationHelpButton={false}
-    selectionIndicator={false}
-    navigationInstructionsInitiallyVisible={false}
-    timeline={false}
-    vrButton={false}
-    cesium-credit-logoContainer={false}
-    cesium-credit-textContainer={false}
-    cesium-viewer-bottom={false}
-    
-    <Globe enableLighting />
-    <Clock
-      startTime={Cesium.JulianDate.fromIso8601('2013-12-25')}
-      currentTime={Cesium.JulianDate.fromIso8601('2013-12-25')}
-      stopTime={Cesium.JulianDate.fromIso8601('2013-12-26')}
-      clockRange={Cesium.ClockRange.LOOP_STOP} // loop when we hit the end time
-      clockStep={Cesium.ClockStep.SYSTEM_CLOCK_MULTIPLIER}
-      multiplier={4000} // how much time to advance each tick
-      shouldAnimate // Animation on by default
-    />
-    >
-
-      <div className="searchbar">
-        
-        <i 
-        onClick={() => this.toggleSearchList()} 
-        id="dropbtn" 
-        className="fab fa-searchengin"></i>
-
-        { this.state.showSearch &&
-        <div id="myDropdown" className="dropdown-content">
-          <input type="text" placeholder="Search by name, genre, city or country" id="myInput" autocomplete="off" onKeyUp={() => this.filterFunction()} />
-          <i onClick= {() => this.toggleSearchList()} className="fas fa-times"></i>
-          <div className="options">
-          {options}
+      {
+        this.state.showOverlay
+        ? <div className="overlay" style={{position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'blue', zIndex: 9 }}>
+            <h1>ᚱΔDIOᛖΔᚹ</h1>
+            
+            <button onClick={this.removeOverlay}>Enter</button>
           </div>
-        </div>
-        }
-      </div>
+        : null 
+      }
       
-      {entities}
-        <div className="fav-btn" onClick={this.favoritesHandler}>
-          <i className="far fa-heart"></i>
-        </div>
+      <ReactPlayer 
+        muted={this.state.muted} 
+        className='react-player' 
+        url={this.state.url} 
+        controls={true} 
+        playing={true}
+      />
 
-        <div className="list-btn" onClick={this.toggleFavorites}>
+      <Viewer 
+        pointGraphics = {{ pixelSize: 2,
+        color: Color.greenyellow
+        }}
+        full={true}
+        token={process.env.REACT_APP_CTOKEN}
+        navigationHelpButton={false}
+        selectionIndicator={false}
+        navigationInstructionsInitiallyVisible={false}
+        timeline={false}
+        vrButton={false}
+        cesium-credit-logoContainer={false}
+        cesium-credit-textContainer={false}
+        cesium-viewer-bottom={false}
+      >
+        <Scene />
+        <ScreenSpaceCameraController
+          enableTranslate={false}
+          minimumZoomDistance={10000}
+          maximumZoomDistance={10000000}
+        />
+        <Camera
+          maximumZoomFactor={0.05}
+        />
 
-          <i className="fas fa-list"></i>
-        </div>
+        <div className="searchbar">
+          
+          <i 
+          onClick={() => this.toggleSearchList()} 
+          id="dropbtn" 
+          className="fab fa-searchengin"></i>
 
-        <div className="zoomin-btn">
-          <i class="fas fa-search-plus"></i>
-        </div>
-
-        <div className="zoomout-btn">
-          <i class="fas fa-search-minus"></i>
-        </div>
-
-        <div className="broadcast-btn" onClick={this.broadcastHandler}>
-          <i className="fas fa-broadcast-tower"></i>
-        </div>
-
-        {this.state.showFavorites && 
-          <div className="favorites">
-              {this.state.favorites.map((favorite) =>
-              <ul>
-                <li key={favorite.name}>{favorite.name}</li>  
-              </ul>
-              )
-              }
-              <div className="clearFav-btn" onClick={this.clearFavorites}>
-                  <i class="fas fa-minus-circle"></i>
-              </div>
+          { this.state.showSearch &&
+          <div id="myDropdown" className="dropdown-content">
+            <input type="text" placeholder="Search by name, genre, city or country" id="myInput" autocomplete="off" onKeyUp={() => this.filterFunction()} />
+            <i onClick= {() => this.toggleSearchList()} className="fas fa-times"></i>
+            <div className="options">
+            {options}
+            </div>
           </div>
-        }
-
-        <div className="currentStation">
-          {this.state.currentStation.name}
+          }
         </div>
-    </Viewer>
+        
+        {entities}
+          <div className="fav-btn" onClick={this.favoritesHandler}>
+            <i className="far fa-heart"></i>
+          </div>
 
-    <h1>STATIONS FROM API</h1>
+          <div className="list-btn" onClick={this.toggleFavorites}>
+
+            <i className="fas fa-list"></i>
+          </div>
+
+          <div className="zoomin-btn">
+            <i class="fas fa-search-plus"></i>
+          </div>
+
+          <div className="zoomout-btn">
+            <i class="fas fa-search-minus"></i>
+          </div>
+
+          <div className="broadcast-btn" onClick={this.broadcastHandler}>
+            <i className="fas fa-broadcast-tower"></i>
+          </div>
+
+          {this.state.showFavorites && 
+            <div className="favorites">
+                {this.state.favorites.map((favorite) =>
+                <ul>
+                  <li key={favorite.name}>{favorite.name}</li>  
+                </ul>
+                )
+                }
+                <div className="clearFav-btn" onClick={this.clearFavorites}>
+                    <i class="fas fa-minus-circle"></i>
+                </div>
+            </div>
+          }
+
+          <div className="currentStation">
+            {this.state.currentStation.name}
+          </div>
+      </Viewer>
+
+      <h1>STATIONS FROM API</h1>
     </div>
   );
 }
 }
 
 export default hot(Radioplayer);
-
-
