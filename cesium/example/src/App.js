@@ -35,6 +35,7 @@ class Radioplayer extends Component {
       isHoveringSound: false,
       isHoveringFavorite: false,
       isHoveringFavList: false,
+      isHoveringSearchBtn:false,
     };
   }
   onClick = (data, e) => {
@@ -150,6 +151,18 @@ removeOverlay = () => {
   });
 }
 
+handleMouseHoverSearchBtn = (e) =>  {
+  e.preventDefault()
+  this.setState(this.toggleHoverStateSearchBtn);
+}
+
+toggleHoverStateSearchBtn = () => {
+  if (!this.state.isHoveringSearchBtn)
+        this.setState({isHoveringSearchBtn: true})
+      else
+        this.setState({isHoveringSearchBtn: false})
+}
+
 render() {
   const entities = positions.map((position, i) => { 
     return <Entity key={i} position={position.coord} point={pointGraphics} onClick={() => this.onClick(position.url)}/>
@@ -177,6 +190,46 @@ render() {
             <h1>ᚱΔDIOᛖΔᚹ</h1>
             
             <button onClick={this.removeOverlay}>Enter</button>
+    <ReactPlayer 
+      muted={this.state.muted} 
+      className='react-player' 
+      url={this.state.url} 
+      controls={true} 
+      playing={true}
+    />
+
+    <Viewer 
+    pointGraphics = {{ pixelSize: 2,
+    color: Color.yellogreen
+    }}
+    full={true}
+    token={process.env.REACT_APP_CTOKEN}
+    navigationHelpButton={false}
+    selectionIndicator={false}
+    navigationInstructionsInitiallyVisible={false}
+    timeline={false}
+    vrButton={false}
+    cesium-credit-logoContainer={false}
+    cesium-credit-textContainer={false}
+    cesium-viewer-bottom={false}
+    >
+
+      <div className="searchbar">
+        
+        <i 
+        onClick={() => this.toggleSearchList()} 
+        id="dropbtn" 
+        className="cesium-button cesium-toolbar-button fab fa-searchengin"
+        onMouseEnter={this.handleMouseHoverSearchBtn}
+        onMouseLeave={this.handleMouseHoverSearchBtn}></i>
+        {this.state.isHoveringSearchBtn && <div id="dropbtn-hover">Search radio stations</div>}
+        
+        { this.state.showSearch &&
+        <div id="myDropdown" className="dropdown-content">
+          <input type="text" placeholder="Search by name, genre, city or country" id="myInput" autocomplete="off" onKeyUp={() => this.filterFunction()} />
+          <i onClick= {() => this.toggleSearchList()} className="fas fa-times"></i>
+          <div className="options">
+          {options}
           </div>
         : null 
       }
@@ -261,8 +314,7 @@ render() {
           onMouseLeave={this.handleMouseHoverFavorite}>
           <i className="far fa-heart"></i>
         </div>
-        {this.state.isHoveringFavorite && <div id="fav-hover">Add Favorite</div>}
-
+          {this.state.isHoveringFavorite && <div id="fav-hover">Add Favorite</div>}
         <div 
           className="cesium-button cesium-toolbar-button list-btn" 
           onClick={this.toggleFavorites}
