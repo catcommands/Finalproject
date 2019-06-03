@@ -156,6 +156,7 @@ toggleHoverStateFavList = () => {
         this.setState({isHoveringFavList: false})
 }
 
+
 render() {
   const entities = positions.map((position, i) => { 
     return <Entity key={i} position={position.coord} point={pointGraphics} onClick={() => this.onClick(position.url)}/>
@@ -170,6 +171,10 @@ render() {
   })
   // console.log("options:", options)
 
+  const favList = this.state.favorites.map((element, i) => {
+    // console.log("Element is:", element)
+    return <a key={i} href="" onClick={(e) => this.onClick(element, e)}>{element.name}  </a>
+  })
   return (
     <div className="Radioplayer">
     <ReactPlayer 
@@ -251,7 +256,13 @@ render() {
         {this.state.isHoveringSound && <div id="broadcast-hover">Sound On/Off</div>}
 
         {this.state.showFavorites && 
-        <FavoriteList className="favorites" favorites={this.state.favorites} />
+        <div className="favorites">
+          {favList}
+          <div className="clearFav-btn" onClick={this.clearFavorites}>
+              {/* <i class="fas fa-minus-circle"></i> */}
+          </div>
+        </div>
+        // <FavoriteList className="favorites" favorites={this.state.favorites} />
           // <div className="favorites">
           //     {this.state.favorites.map((favorite) =>
           //     <ul>
