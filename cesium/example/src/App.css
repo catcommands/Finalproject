@@ -230,7 +230,7 @@
 }
 
 #broadcast-hover {
-  font-size: 20px;
+  font-size: 16px;
   font-family: inherit;
 	display:flex;
 	justify-content: center;
@@ -243,7 +243,7 @@
 }
 
 #fav-hover {
-  font-size: 20px;
+  font-size: 16px;
   font-family: inherit;
 	display:flex;
 	justify-content: center;
@@ -256,7 +256,7 @@
 }
 
 #favList-hover {
-  font-size: 20px;
+  font-size: 16px;
   font-family: inherit;
 	display:flex;
 	justify-content: center;
@@ -268,3 +268,15 @@
   color: white;
 }
 
+#dropbtn-hover {
+  font-size: 16px;
+  font-family: inherit;
+	display:flex;
+	justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 10px;
+  left: 40px;
+  z-index: 1;
+  color: white;
+}

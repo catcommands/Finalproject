@@ -35,6 +35,7 @@ class Radioplayer extends Component {
       isHoveringSound: false,
       isHoveringFavorite: false,
       isHoveringFavList: false,
+      isHoveringSearchBtn:false,
     };
   }
   onClick = (data, e) => {
@@ -156,6 +157,17 @@ toggleHoverStateFavList = () => {
         this.setState({isHoveringFavList: false})
 }
 
+handleMouseHoverSearchBtn = (e) =>  {
+  e.preventDefault()
+  this.setState(this.toggleHoverStateSearchBtn);
+}
+
+toggleHoverStateSearchBtn = () => {
+  if (!this.state.isHoveringSearchBtn)
+        this.setState({isHoveringSearchBtn: true})
+      else
+        this.setState({isHoveringSearchBtn: false})
+}
 
 render() {
   const entities = positions.map((position, i) => { 
@@ -206,8 +218,11 @@ render() {
         <i 
         onClick={() => this.toggleSearchList()} 
         id="dropbtn" 
-        className="cesium-button cesium-toolbar-button fab fa-searchengin"></i>
-
+        className="cesium-button cesium-toolbar-button fab fa-searchengin"
+        onMouseEnter={this.handleMouseHoverSearchBtn}
+        onMouseLeave={this.handleMouseHoverSearchBtn}></i>
+        {this.state.isHoveringSearchBtn && <div id="dropbtn-hover">Search radio stations</div>}
+        
         { this.state.showSearch &&
         <div id="myDropdown" className="dropdown-content">
           <input type="text" placeholder="Search by name, genre, city or country" id="myInput" autocomplete="off" onKeyUp={() => this.filterFunction()} />
@@ -227,8 +242,7 @@ render() {
           onMouseLeave={this.handleMouseHoverFavorite}>
           <i className="far fa-heart"></i>
         </div>
-        {this.state.isHoveringFavorite && <div id="fav-hover">Add Favorite</div>}
-
+          {this.state.isHoveringFavorite && <div id="fav-hover">Add Favorite</div>}
         <div 
           className="cesium-button cesium-toolbar-button list-btn" 
           onClick={this.toggleFavorites}
