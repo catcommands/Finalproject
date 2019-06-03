@@ -116,7 +116,7 @@ class Radioplayer extends Component {
   // Resets the localStorage to an empty object, eliminating all items on it
 // clearFavorites = (e) => {
 //   e.preventDefault()
-//   localStorage.setItem('favorites', null);
+//   localStorage.setItem('favorites', 'null');
 //   this.state.favorites = [];
 // }
 
@@ -258,9 +258,9 @@ render() {
         {this.state.showFavorites && 
         <div className="favorites">
           {favList}
-          <div className="clearFav-btn" onClick={this.clearFavorites}>
-              {/* <i class="fas fa-minus-circle"></i> */}
-          </div>
+          {/* <div className="clearFav-btn" onClick={this.clearFavorites}>
+              <i class="fas fa-minus-circle"></i>
+          </div> */}
         </div>
         // <FavoriteList className="favorites" favorites={this.state.favorites} />
           // <div className="favorites">
