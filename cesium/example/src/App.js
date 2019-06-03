@@ -31,13 +31,10 @@ class Radioplayer extends Component {
       favorites: [],
       showFavorites: false,
       currentStation: {name: ""},
-<<<<<<< HEAD
       showOverlay: true
-=======
       isHoveringSound: false,
       isHoveringFavorite: false,
       isHoveringFavList: false,
->>>>>>> favorites_list
     };
   }
   onClick = (data, e) => {
