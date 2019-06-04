@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import ReactPlayer from 'react-player'
 import { hot } from "react-hot-loader/root";
 import "./App.css";
-import FavoriteList from "./FavoriteList.js";
 import { Camera, Viewer, Entity, Scene, ScreenSpaceCameraController } from "resium";
 import { Cartesian3, Color} from "cesium";
 import {urls} from "./urls"
@@ -114,7 +113,7 @@ class Radioplayer extends Component {
     }
   }
   
-  // Resets the localStorage to an empty object, eliminating all items on it
+// Resets the localStorage to an empty object, eliminating all items on it
 // clearFavorites = (e) => {
 //   e.preventDefault()
 //   localStorage.setItem('favorites', 'null');
@@ -185,7 +184,7 @@ render() {
     // for each url
   const options = searchOptions.map((element, i) => {
     // console.log("Element is:", element)
-    return <a key={i} href="" onClick={(e) => this.onClick(element, e)}>{element.name} {element.country} {element.city} {element.language}  {element.genre} </a>
+    return <a key={i} href="" onClick={(e) => this.onClick(element, e)}>{element.name} {element.country} {element.city} {element.language} {element.genre} </a>
   })
   // console.log("options:", options)
 
@@ -227,6 +226,16 @@ render() {
     cesium-credit-textContainer={false}
     cesium-viewer-bottom={false}
     >
+
+    <Scene />
+    <ScreenSpaceCameraController
+    enableTranslate={false}
+    minimumZoomDistance={10000}
+    maximumZoomDistance={100000000}
+    />
+    <Camera
+    maximumZoomFactor={0.05}
+    />
 
       <div className="searchbar">
         
