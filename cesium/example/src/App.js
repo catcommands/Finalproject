@@ -31,11 +31,11 @@ class Radioplayer extends Component {
       favorites: [],
       showFavorites: false,
       currentStation: {name: ""},
-      showOverlay: true
       isHoveringSound: false,
       isHoveringFavorite: false,
       isHoveringFavList: false,
       isHoveringSearchBtn:false,
+      showOverlay: true
     };
   }
   onClick = (data, e) => {
@@ -145,10 +145,16 @@ toggleHoverStateFavorite = () => {
         this.setState({isHoveringFavorite: false})
 }
 
-removeOverlay = () => {
-  this.setState({
-    showOverlay: false,
-  });
+handleMouseHoverFavList = (e) =>  {
+  e.preventDefault()
+  this.setState(this.toggleHoverStateFavList);
+}
+
+toggleHoverStateFavList = () => {
+  if (!this.state.isHoveringFavList)
+        this.setState({isHoveringFavList: true})
+      else
+        this.setState({isHoveringFavList: false})
 }
 
 handleMouseHoverSearchBtn = (e) =>  {
@@ -161,6 +167,12 @@ toggleHoverStateSearchBtn = () => {
         this.setState({isHoveringSearchBtn: true})
       else
         this.setState({isHoveringSearchBtn: false})
+}
+
+removeOverlay = () => {
+  this.setState({
+    showOverlay: false,
+  });
 }
 
 render() {
@@ -183,20 +195,22 @@ render() {
   })
   return (
     <div className="Radioplayer">
-
-      {
-        this.state.showOverlay
-        ? <div className="overlay" style={{position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'blue', zIndex: 9 }}>
-            <h1>ᚱΔDIOᛖΔᚹ</h1>
-            
-            <button onClick={this.removeOverlay}>Enter</button>
     <ReactPlayer 
       muted={this.state.muted} 
       className='react-player' 
       url={this.state.url} 
       controls={true} 
       playing={true}
-    />
+    /> 
+      {
+        this.state.showOverlay
+        ? <div className="overlay" style={{position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'blue', zIndex: 9 }}>
+            <h1>ᚱΔDIOᛖΔᚹ</h1>
+            
+            <button onClick={this.removeOverlay}>Enter</button>
+          </div>
+        : null 
+      }
 
     <Viewer 
     pointGraphics = {{ pixelSize: 2,
@@ -225,87 +239,16 @@ render() {
         {this.state.isHoveringSearchBtn && <div id="dropbtn-hover">Search radio stations</div>}
         
         { this.state.showSearch &&
-        <div id="myDropdown" className="dropdown-content">
-          <input type="text" placeholder="Search by name, genre, city or country" id="myInput" autocomplete="off" onKeyUp={() => this.filterFunction()} />
-          <i onClick= {() => this.toggleSearchList()} className="fas fa-times"></i>
-          <div className="options">
-          {options}
-          </div>
-        : null 
-      }
-      
-      <ReactPlayer 
-        muted={this.state.muted} 
-        className='react-player' 
-        url={this.state.url} 
-        controls={true} 
-        playing={true}
-      />
-
-      <Viewer 
-        pointGraphics = {{ pixelSize: 2,
-        color: Color.greenyellow
-        }}
-        full={true}
-        token={process.env.REACT_APP_CTOKEN}
-        navigationHelpButton={false}
-        selectionIndicator={false}
-        navigationInstructionsInitiallyVisible={false}
-        timeline={false}
-        vrButton={false}
-        cesium-credit-logoContainer={false}
-        cesium-credit-textContainer={false}
-        cesium-viewer-bottom={false}
-      >
-        <Scene />
-        <ScreenSpaceCameraController
-          enableTranslate={false}
-          minimumZoomDistance={10000}
-          maximumZoomDistance={10000000}
-        />
-        <Camera
-          maximumZoomFactor={0.05}
-        />
-
-        <div className="searchbar">
-          
-          <i 
-          onClick={() => this.toggleSearchList()} 
-          id="dropbtn" 
-          className="fab fa-searchengin"></i>
-
-          { this.state.showSearch &&
           <div id="myDropdown" className="dropdown-content">
             <input type="text" placeholder="Search by name, genre, city or country" id="myInput" autocomplete="off" onKeyUp={() => this.filterFunction()} />
             <i onClick= {() => this.toggleSearchList()} className="fas fa-times"></i>
             <div className="options">
-            {options}
+              {options}
             </div>
           </div>
-          }
-        </div>
-        
-        {entities}
-          <div className="fav-btn" onClick={this.favoritesHandler}>
-            <i className="far fa-heart"></i>
-          </div>
+        }
+      </div>
 
-          <div className="list-btn" onClick={this.toggleFavorites}>
-
-            <i className="fas fa-list"></i>
-          </div>
-
-          <div className="zoomin-btn">
-            <i class="fas fa-search-plus"></i>
-          </div>
-
-          <div className="zoomout-btn">
-            <i class="fas fa-search-minus"></i>
-          </div>
-
-          <div className="broadcast-btn" onClick={this.broadcastHandler}>
-            <i className="fas fa-broadcast-tower"></i>
-          </div>
       {entities}
         <div 
           className="cesium-button cesium-toolbar-button fav-btn" 
@@ -338,50 +281,34 @@ render() {
           onMouseEnter={this.handleMouseHoverSound}
           onMouseLeave={this.handleMouseHoverSound}>
           <i className="fas fa-broadcast-tower"></i>
-        </div >
+        </div>
         {this.state.isHoveringSound && <div id="broadcast-hover">Sound On/Off</div>}
 
         {this.state.showFavorites && 
-        <div className="favorites">
-          {favList}
-          {/* <div className="clearFav-btn" onClick={this.clearFavorites}>
-              <i class="fas fa-minus-circle"></i>
-          </div> */}
-        </div>
-        // <FavoriteList className="favorites" favorites={this.state.favorites} />
-          // <div className="favorites">
-          //     {this.state.favorites.map((favorite) =>
-          //     <ul>
-          //       <li key={favorite.name}>{favorite.name}</li>  
-          //     </ul>
-          //     )
-          //     }
-          //     <div className="clearFav-btn" onClick={this.clearFavorites}>
-          //         <i class="fas fa-minus-circle"></i>
-          //     </div>
-          // </div>
+          <div className="favorites">
+            {favList}
+          </div>
         }
 
-          {this.state.showFavorites && 
-            <div className="favorites">
-                {this.state.favorites.map((favorite) =>
-                <ul>
-                  <li key={favorite.name}>{favorite.name}</li>  
-                </ul>
-                )
-                }
-                <div className="clearFav-btn" onClick={this.clearFavorites}>
-                    <i class="fas fa-minus-circle"></i>
-                </div>
-            </div>
-          }
+
+        {this.state.showFavorites && 
+          <div className="favorites">
+              {this.state.favorites.map((favorite) =>
+              <ul>
+                <li key={favorite.name}>{favorite.name}</li>  
+              </ul>
+              )
+              }
+              <div className="clearFav-btn" onClick={this.clearFavorites}>
+                  <i class="fas fa-minus-circle"></i>
+              </div>
+          </div>
+        }
 
           <div className="currentStation">
             {this.state.currentStation.name}
           </div>
       </Viewer>
-
-      <h1>STATIONS FROM API</h1>
     </div>
   );
 }
