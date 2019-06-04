@@ -1,0 +1,282 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+.cesium-viewer-bottom {
+  display: none;
+}
+
+.cesium-viewer-animationContainer {
+  display: none;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+#dropbtn {
+  padding: 5px;
+  font-size: 25px;
+  border: none;
+  cursor: pointer;
+  /* height: 20px; */
+}
+
+#myDropdown {
+  overflow: hidden;
+  height:250px;
+  width:100%;
+  margin-top: -40px;
+  background: rgba(0,0,0,0.2);
+  border-bottom-right-radius: 10px
+}
+
+#myInput {
+  box-sizing: border-box;
+  background-position: 14px 12px;
+  background-repeat: no-repeat;
+  font-size: 16px;
+  padding: 14px 20px 12px 45px;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  width: 100%;
+  background: transparent;
+  color: white;
+}
+
+#myInput:focus {outline: none};
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+  max-height: 615px;
+}
+
+.dropdown-content {
+  position: absolute;
+  background-color: #f6f6f6;
+  min-width: 230px;
+  overflow: auto;
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: white;
+  font-family: sans-serif;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.dropdown a:hover {background-color: #ddd;}
+
+.show {display: block;}
+
+.searchbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  min-width: 350px
+}
+
+.fav-btn {
+  font-size: 30px;
+	display:flex;
+	justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 100px;
+  right: 10px;
+  z-index: 1;
+}
+
+.broadcast-btn {
+  font-size: 25px;
+	display:flex;
+	justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 50px;
+  right: 10px;
+  z-index: 1;
+}
+
+.fas.fa-times {
+  font-size: 25px;
+	display:flex;
+	height: 40px;
+	justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0px;
+  left: 333px;
+  color:white;
+  z-index: 1;
+}
+
+.options {
+  overflow-y: scroll;
+  height: 160px;
+  background: transparent;
+  overflow-y: auto;
+  background: rgba(0,0,0,0.2);
+  border-bottom-right-radius: 10px;
+}
+
+.list-btn {
+  font-size: 30px;
+	display:flex;
+	justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 150px;
+  right: 10px;
+  z-index: 1;
+}
+
+.zoomin-btn {
+  font-size: 30px;
+	display:flex;
+	justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 200px;
+  right: 10px;
+  z-index: 1;
+}
+
+.zoomout-btn {
+  font-size: 30px;
+	display:flex;
+	justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 250px;
+  right: 10px;
+  z-index: 1;
+}
+
+.currentStation {
+  display:flex;
+	height: 40px;
+	justify-content: center;
+  align-items: center;
+  position: absolute;
+  color:white;
+  z-index: 1;
+  bottom: 80px;
+  left: 5px;
+}
+
+.favorites {
+  display:inline-block;
+  height: 80px;
+  width: 300px;
+	justify-content: center;
+  align-items: center;
+  position: absolute;
+  color:white;
+  z-index: 1;
+  bottom: 80px;
+  right: 10px;
+  overflow-y: scroll;
+  background: transparent;
+  background: rgba(0,0,0,0.2);
+  border-bottom-right-radius: 10px;
+}
+
+.favorites a {
+  color: white;
+  font-family: sans-serif;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.clearFav-btn {
+  font-size: 30px;
+}
+
+#broadcast-hover {
+  font-size: 16px;
+  font-family: inherit;
+	display:flex;
+	justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 55px;
+  right: 55px;
+  z-index: 1;
+  color: white;
+}
+
+#fav-hover {
+  font-size: 16px;
+  font-family: inherit;
+	display:flex;
+	justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 105px;
+  right: 55px;
+  z-index: 1;
+  color: white;
+}
+
+#favList-hover {
+  font-size: 16px;
+  font-family: inherit;
+	display:flex;
+	justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 155px;
+  right: 55px;
+  z-index: 1;
+  color: white;
+}
+
+#dropbtn-hover {
+  font-size: 16px;
+  font-family: inherit;
+	display:flex;
+	justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 10px;
+  left: 40px;
+  z-index: 1;
+  color: white;
+}
