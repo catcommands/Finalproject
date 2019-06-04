@@ -2,23 +2,12 @@ import React, {Component} from 'react';
 import ReactPlayer from 'react-player'
 import { hot } from "react-hot-loader/root";
 import "./App.css";
-<<<<<<< HEAD
 import { Camera, Viewer, Entity, Scene, ScreenSpaceCameraController } from "resium";
 import { Cartesian3, Color} from "cesium";
 import {urls} from "./urls"
 
 const pointGraphics = { pixelSize: 4, 
   color: Color.LAWNGREEN};
-=======
-
-import { Viewer, Entity} from "resium";
-import { Cartesian3} from "cesium";
-import {urls} from "./urls"
-
-
-//const frustum = new PerspectiveFrustum ({near:1.0, far:2.0, fov:3.14, aspectratio:1.0})
-const pointGraphics = { pixelSize: 10 };
->>>>>>> locations
 const positions = urls.map((url) => {
   return {coord: Cartesian3.fromDegrees(Number(url.longitude), Number(url.latitude), 100), url:url}
 })
@@ -54,7 +43,6 @@ class Radioplayer extends Component {
     }
     
     // var x = document.getElementsByClassName("cesium-viewer-toolbar")[0].firstChild.firstChild.firstChild; 
-<<<<<<< HEAD
     // x.focus()
     // x.keepExpanded = true;
     // x.value = `${data.longitude}, ${data.latitude}`
@@ -64,11 +52,6 @@ class Radioplayer extends Component {
     this.setState({ url: data.url, currentStation: data, showSearch: false})
     //this.toggleSearchList();
   }
-=======
-    // //x.focus()
-    // x.keepExpanded = true;
-    // x.value = `${data.lng}, ${data.lat}`
->>>>>>> locations
 
   componentDidMount() {
     this.setState({ isLoading: true });
@@ -137,7 +120,6 @@ class Radioplayer extends Component {
 //   this.state.favorites = [];
 // }
 
-<<<<<<< HEAD
 handleMouseHoverSound = (e) =>  {
   e.preventDefault()
   this.setState(this.toggleHoverStateSound);
@@ -192,15 +174,6 @@ removeOverlay = () => {
   });
 }
 
-=======
-  // cameraFunction(){
-  //   var x = document.getElementsByClassName("example");
-  // }
-  //const App = () => (
-    
-  //);
-  //Camera frustum={frustum}/>
->>>>>>> locations
 render() {
   const entities = positions.map((position, i) => { 
     return <Entity key={i} position={position.coord} point={pointGraphics} onClick={() => this.onClick(position.url)}/>
