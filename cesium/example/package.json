@@ -8,6 +8,7 @@
     "craco-cesium": "^1.0.0",
     "dotenv": "^8.0.0",
     "react": "^16.8.6",
+    "react-audio-spectrum": "0.0.9",
     "react-dom": "^16.8.6",
     "react-hot-loader": "^4.8.8",
     "react-player": "^1.11.0",

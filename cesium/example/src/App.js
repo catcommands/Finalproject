@@ -3,13 +3,12 @@ import ReactPlayer from 'react-player'
 import { hot } from "react-hot-loader/root";
 import "./App.css";
 import FavoriteList from "./FavoriteList.js";
-import { Viewer, Entity } from "resium";
-import { Cartesian3, Color } from "cesium";
+import { Camera, Viewer, Entity, Scene, ScreenSpaceCameraController } from "resium";
+import { Cartesian3, Color} from "cesium";
 import {urls} from "./urls"
 
-
 const pointGraphics = { pixelSize: 4, 
-  color: Color.YELLOWGREEN};
+  color: Color.LAWNGREEN};
 const positions = urls.map((url) => {
   return {coord: Cartesian3.fromDegrees(Number(url.longitude), Number(url.latitude), 100), url:url}
 })
@@ -36,6 +35,7 @@ class Radioplayer extends Component {
       isHoveringFavorite: false,
       isHoveringFavList: false,
       isHoveringSearchBtn:false,
+      showOverlay: true
     };
   }
   onClick = (data, e) => {
@@ -169,6 +169,12 @@ toggleHoverStateSearchBtn = () => {
         this.setState({isHoveringSearchBtn: false})
 }
 
+removeOverlay = () => {
+  this.setState({
+    showOverlay: false,
+  });
+}
+
 render() {
   const entities = positions.map((position, i) => { 
     return <Entity key={i} position={position.coord} point={pointGraphics} onClick={() => this.onClick(position.url)}/>
@@ -195,7 +201,16 @@ render() {
       url={this.state.url} 
       controls={true} 
       playing={true}
-    />
+    /> 
+      {
+        this.state.showOverlay
+        ? <div className="overlay" style={{position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'blue', zIndex: 9 }}>
+            <h1>ᚱΔDIOᛖΔᚹ</h1>
+            
+            <button onClick={this.removeOverlay}>Enter</button>
+          </div>
+        : null 
+      }
 
     <Viewer 
     pointGraphics = {{ pixelSize: 2,
@@ -224,16 +239,16 @@ render() {
         {this.state.isHoveringSearchBtn && <div id="dropbtn-hover">Search radio stations</div>}
         
         { this.state.showSearch &&
-        <div id="myDropdown" className="dropdown-content">
-          <input type="text" placeholder="Search by name, genre, city or country" id="myInput" autocomplete="off" onKeyUp={() => this.filterFunction()} />
-          <i onClick= {() => this.toggleSearchList()} className="fas fa-times"></i>
-          <div className="options">
-          {options}
+          <div id="myDropdown" className="dropdown-content">
+            <input type="text" placeholder="Search by name, genre, city or country" id="myInput" autocomplete="off" onKeyUp={() => this.filterFunction()} />
+            <i onClick= {() => this.toggleSearchList()} className="fas fa-times"></i>
+            <div className="options">
+              {options}
+            </div>
           </div>
-        </div>
         }
       </div>
-      
+
       {entities}
         <div 
           className="cesium-button cesium-toolbar-button fav-btn" 
@@ -266,42 +281,37 @@ render() {
           onMouseEnter={this.handleMouseHoverSound}
           onMouseLeave={this.handleMouseHoverSound}>
           <i className="fas fa-broadcast-tower"></i>
-        </div >
+        </div>
         {this.state.isHoveringSound && <div id="broadcast-hover">Sound On/Off</div>}
 
         {this.state.showFavorites && 
-        <div className="favorites">
-          {favList}
-          {/* <div className="clearFav-btn" onClick={this.clearFavorites}>
-              <i class="fas fa-minus-circle"></i>
-          </div> */}
-        </div>
-        // <FavoriteList className="favorites" favorites={this.state.favorites} />
-          // <div className="favorites">
-          //     {this.state.favorites.map((favorite) =>
-          //     <ul>
-          //       <li key={favorite.name}>{favorite.name}</li>  
-          //     </ul>
-          //     )
-          //     }
-          //     <div className="clearFav-btn" onClick={this.clearFavorites}>
-          //         <i class="fas fa-minus-circle"></i>
-          //     </div>
-          // </div>
+          <div className="favorites">
+            {favList}
+          </div>
         }
 
-        <div className="currentStation">
-          {this.state.currentStation.name}
-        </div>
-  
-    </Viewer>
 
-    <h1>STATIONS FROM API</h1>
+        {this.state.showFavorites && 
+          <div className="favorites">
+              {this.state.favorites.map((favorite) =>
+              <ul>
+                <li key={favorite.name}>{favorite.name}</li>  
+              </ul>
+              )
+              }
+              <div className="clearFav-btn" onClick={this.clearFavorites}>
+                  <i class="fas fa-minus-circle"></i>
+              </div>
+          </div>
+        }
+
+          <div className="currentStation">
+            {this.state.currentStation.name}
+          </div>
+      </Viewer>
     </div>
   );
 }
 }
 
 export default hot(Radioplayer);
-
-
