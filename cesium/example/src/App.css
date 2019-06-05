@@ -326,3 +326,10 @@ outline: 1px solid slategrey;
   z-index: 1;
   color: white;
 }
+.overlay {
+  background-color: rgb(0, 117, 226);
+}
+
+.enter-button {
+  color: blue;
+}

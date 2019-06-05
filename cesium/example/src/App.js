@@ -253,10 +253,11 @@ render() {
     /> 
       {
         this.state.showOverlay
-        ? <div className="overlay" style={{position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'blue', zIndex: 9 }}>
+        ? <div className="overlay" style={{position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: '', zIndex: 9 }}>
             <h1>ᚱΔDIOᛖΔᚹ</h1>
             
-            <button onClick={this.removeOverlay}>Enter</button>
+            <button className="enter-button" onClick={this.removeOverlay}>Enter</button>
+            <img src="/photo.gif"></img>
           </div>
         : null 
       }
@@ -307,7 +308,7 @@ render() {
               {options}
             </div>
           </div>
-        }
+        },
       </div>
 
       {entities}
