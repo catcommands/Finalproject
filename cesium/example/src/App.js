@@ -87,14 +87,14 @@ class Radioplayer extends Component {
   // localStorage.setItem('favorites', JSON.stringify(favoritesWithStationRemoved));
   // this.setState({ favorites: favoritesWithStationRemoved });
 
-  // removeFavoritesHandler(station) = (e) => {
-  //   e.preventDefault()
+  removeFavoritesHandler = (station, e) => {
+    e.preventDefault()
 
-  //   const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-  //   const favoritesWithStationRemoved = favorites.filter((fav) => fav.id !== station.id)
-  //   localStorage.setItem('favorites', JSON.stringify(favoritesWithStationRemoved));
-  //   this.setState({ favorites: favoritesWithStationRemoved });
-  // }
+    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    const favoritesWithStationRemoved = favorites.filter((fav) => fav.id !== station.id)
+    localStorage.setItem('favorites', JSON.stringify(favoritesWithStationRemoved));
+    this.setState({ favorites: favoritesWithStationRemoved });
+  }
  
   broadcastHandler = (e) => {
     e.preventDefault()

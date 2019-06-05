@@ -199,14 +199,14 @@
 
 .favorites {
   display:inline-block;
-  height: 80px;
-  width: 300px;
+  height: 100px;
+  width: 200px;
 	justify-content: center;
   align-items: center;
   position: absolute;
   color:white;
   z-index: 1;
-  bottom: 80px;
+  bottom: 50px;
   right: 10px;
   overflow-y: scroll;
   background: transparent;
