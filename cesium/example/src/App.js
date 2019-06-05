@@ -3,7 +3,7 @@ import ReactPlayer from 'react-player'
 import { hot } from "react-hot-loader/root";
 import "./App.css";
 import { Camera, Viewer, Entity, Scene, ScreenSpaceCameraController } from "resium";
-import { Cartesian3, Color} from "cesium";
+import { Camera as Cam, Cartesian3, Color} from "cesium";
 import {urls} from "./urls"
 
 const pointGraphics = { pixelSize: 4, 
@@ -71,13 +71,16 @@ class Radioplayer extends Component {
     const favorites = JSON.parse(localStorage.getItem('favorites'))
 
     if (favorites) { 
-      favorites.push(this.state.currentStation)
-      localStorage.setItem("favorites", JSON.stringify(favorites))
+      const favoritesWithStation = favorites.filter((fav) => fav.id !== this.state.currentStation.id)
+      favoritesWithStation.push(this.state.currentStation)
+      localStorage.setItem("favorites", JSON.stringify(favoritesWithStation))
     } else {
       localStorage.setItem("favorites", JSON.stringify([this.state.currentStation]))
     }
+
+    const favoritesWithStation = this.state.favorites.filter((fav) => fav.id !== this.state.currentStation.id)
     this.setState({ 
-      favorites: [...this.state.favorites, this.state.currentStation]
+      favorites: [...favoritesWithStation, this.state.currentStation]
     })
   }
 
@@ -206,6 +209,17 @@ removeOverlay = () => {
   });
 }
 
+zoomIn = () => {
+  this.camera.current.cesiumElement.zoomIn(1000000);
+}
+
+zoomOut = () => {
+  this.camera.current.cesiumElement.zoomOut(1000000);
+}
+
+
+camera = React.createRef()
+
 render() {
   const entities = positions.map((position, i) => { 
     return <Entity key={i} position={position.coord} point={pointGraphics} onClick={() => this.onClick(position.url)}/>
@@ -224,6 +238,10 @@ render() {
     // console.log("Element is:", element)
     return <a key={i} href="" onClick={(e) => this.onClick(element, e)}>{element.name}  </a>
   })
+
+  console.log("camera: ", this.camera)
+
+
   return (
     <div className="Radioplayer">
     <ReactPlayer 
@@ -267,6 +285,8 @@ render() {
     />
     <Camera
     maximumZoomFactor={0.05}
+    // defaultZoomAmount={100}
+    ref={this.camera}
     />
 
       <div className="searchbar">
@@ -320,11 +340,11 @@ render() {
         </div>
         {this.state.isHoveringFavList && <div id="favList-hover">Show Favorites</div>}
 
-        <div className="cesium-button cesium-toolbar-button zoomin-btn">
+        <div onClick={this.zoomIn} className="cesium-button cesium-toolbar-button zoomin-btn">
           <i class="fas fa-search-plus"></i>
         </div>
 
-        <div className="cesium-button cesium-toolbar-button zoomout-btn">
+        <div onClick={this.zoomOut} className="cesium-button cesium-toolbar-button zoomout-btn">
           <i class="fas fa-search-minus"></i>
         </div>
 
