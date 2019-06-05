@@ -87,13 +87,15 @@ class Radioplayer extends Component {
   // localStorage.setItem('favorites', JSON.stringify(favoritesWithStationRemoved));
   // this.setState({ favorites: favoritesWithStationRemoved });
 
-  removeFavoritesHandler = (station, e) => {
+  removeFavoritesHandler = (e) => {
     e.preventDefault()
-
-    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    const favoritesWithStationRemoved = favorites.filter((fav) => fav.id !== station.id)
-    localStorage.setItem('favorites', JSON.stringify(favoritesWithStationRemoved));
-    this.setState({ favorites: favoritesWithStationRemoved });
+    const station = this.state.currentStation;
+    if (station) {
+      const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+      const favoritesWithStationRemoved = favorites.filter((fav) => fav.id !== station.id)
+      localStorage.setItem('favorites', JSON.stringify(favoritesWithStationRemoved));
+      this.setState({ favorites: favoritesWithStationRemoved });
+    }
   }
  
   broadcastHandler = (e) => {
@@ -342,7 +344,7 @@ render() {
         }
 
           <div className="currentStation">
-            {this.state.currentStation.name}
+            Playing: {this.state.currentStation.name}
           </div>
       </Viewer>
     </div>
