@@ -3,7 +3,7 @@ import ReactPlayer from 'react-player'
 import { hot } from "react-hot-loader/root";
 import "./App.css";
 import { Camera, Viewer, Entity, Scene, ScreenSpaceCameraController } from "resium";
-import { Cartesian3, Color} from "cesium";
+import { Camera as Cam, Cartesian3, Color} from "cesium";
 import {urls} from "./urls"
 
 const pointGraphics = { pixelSize: 4, 
@@ -32,6 +32,7 @@ class Radioplayer extends Component {
       currentStation: {name: ""},
       isHoveringSound: false,
       isHoveringFavorite: false,
+      isHoveringRemoveFavorite: false,
       isHoveringFavList: false,
       isHoveringSearchBtn:false,
       showOverlay: true
@@ -70,14 +71,34 @@ class Radioplayer extends Component {
     const favorites = JSON.parse(localStorage.getItem('favorites'))
 
     if (favorites) { 
-      favorites.push(this.state.currentStation)
-      localStorage.setItem("favorites", JSON.stringify(favorites))
+      const favoritesWithStation = favorites.filter((fav) => fav.id !== this.state.currentStation.id)
+      favoritesWithStation.push(this.state.currentStation)
+      localStorage.setItem("favorites", JSON.stringify(favoritesWithStation))
     } else {
       localStorage.setItem("favorites", JSON.stringify([this.state.currentStation]))
     }
+
+    const favoritesWithStation = this.state.favorites.filter((fav) => fav.id !== this.state.currentStation.id)
     this.setState({ 
-      favorites: [...this.state.favorites, this.state.currentStation]
+      favorites: [...favoritesWithStation, this.state.currentStation]
     })
+  }
+
+  // Make a removeFavoritesHandler(station) function
+  // const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+  // const favoritesWithStationRemoved = favorites.filter((fav) => fav.id !== station.id)
+  // localStorage.setItem('favorites', JSON.stringify(favoritesWithStationRemoved));
+  // this.setState({ favorites: favoritesWithStationRemoved });
+
+  removeFavoritesHandler = (e) => {
+    e.preventDefault()
+    const station = this.state.currentStation;
+    if (station) {
+      const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+      const favoritesWithStationRemoved = favorites.filter((fav) => fav.id !== station.id)
+      localStorage.setItem('favorites', JSON.stringify(favoritesWithStationRemoved));
+      this.setState({ favorites: favoritesWithStationRemoved });
+    }
   }
  
   broadcastHandler = (e) => {
@@ -144,6 +165,20 @@ toggleHoverStateFavorite = () => {
         this.setState({isHoveringFavorite: false})
 }
 
+
+handleMouseHoverRemoveFavorite = (e) =>  {
+  e.preventDefault()
+  this.setState(this.toggleHoverStateRemoveFavorite);
+}
+
+toggleHoverStateRemoveFavorite = () => {
+  if (!this.state.isHoveringRemoveFavorite)
+        this.setState({isHoveringRemoveFavorite: true})
+      else
+        this.setState({isHoveringRemoveFavorite: false})
+}
+
+
 handleMouseHoverFavList = (e) =>  {
   e.preventDefault()
   this.setState(this.toggleHoverStateFavList);
@@ -174,6 +209,17 @@ removeOverlay = () => {
   });
 }
 
+zoomIn = () => {
+  this.camera.current.cesiumElement.zoomIn(1000000);
+}
+
+zoomOut = () => {
+  this.camera.current.cesiumElement.zoomOut(1000000);
+}
+
+
+camera = React.createRef()
+
 render() {
   const entities = positions.map((position, i) => { 
     return <Entity key={i} position={position.coord} point={pointGraphics} onClick={() => this.onClick(position.url)}/>
@@ -192,6 +238,10 @@ render() {
     // console.log("Element is:", element)
     return <a key={i} href="" onClick={(e) => this.onClick(element, e)}>{element.name}  </a>
   })
+
+  console.log("camera: ", this.camera)
+
+
   return (
     <div className="Radioplayer">
     <ReactPlayer 
@@ -200,7 +250,7 @@ render() {
       url={this.state.url} 
       controls={true} 
       playing={true}
-    /> 
+    /> 
       {
         this.state.showOverlay
         ? <div className="overlay" style={{position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'blue', zIndex: 9 }}>
@@ -235,6 +285,8 @@ render() {
     />
     <Camera
     maximumZoomFactor={0.05}
+    // defaultZoomAmount={100}
+    ref={this.camera}
     />
 
       <div className="searchbar">
@@ -264,9 +316,21 @@ render() {
           onClick={this.favoritesHandler}
           onMouseEnter={this.handleMouseHoverFavorite}
           onMouseLeave={this.handleMouseHoverFavorite}>
-          <i className="far fa-heart"></i>
+          <i className="fas fa-heart"></i>
         </div>
           {this.state.isHoveringFavorite && <div id="fav-hover">Add Favorite</div>}
+
+
+          <div 
+          className="cesium-button cesium-toolbar-button removeFav-btn" 
+          onClick={this.removeFavoritesHandler}
+          onMouseEnter={this.handleMouseHoverRemoveFavorite}
+          onMouseLeave={this.handleMouseHoverRemoveFavorite}>
+          <i className="far fa-heart"></i>
+        </div>
+          {this.state.isHoveringRemoveFavorite && <div id="removeFav-hover">Remove Favorite</div>}
+
+
         <div 
           className="cesium-button cesium-toolbar-button list-btn" 
           onClick={this.toggleFavorites}
@@ -276,11 +340,11 @@ render() {
         </div>
         {this.state.isHoveringFavList && <div id="favList-hover">Show Favorites</div>}
 
-        <div className="cesium-button cesium-toolbar-button zoomin-btn">
+        <div onClick={this.zoomIn} className="cesium-button cesium-toolbar-button zoomin-btn">
           <i class="fas fa-search-plus"></i>
         </div>
 
-        <div className="cesium-button cesium-toolbar-button zoomout-btn">
+        <div onClick={this.zoomOut} className="cesium-button cesium-toolbar-button zoomout-btn">
           <i class="fas fa-search-minus"></i>
         </div>
 
@@ -299,23 +363,8 @@ render() {
           </div>
         }
 
-
-        {this.state.showFavorites && 
-          <div className="favorites">
-              {this.state.favorites.map((favorite) =>
-              <ul>
-                <li key={favorite.name}>{favorite.name}</li>  
-              </ul>
-              )
-              }
-              <div className="clearFav-btn" onClick={this.clearFavorites}>
-                  <i class="fas fa-minus-circle"></i>
-              </div>
-          </div>
-        }
-
           <div className="currentStation">
-            {this.state.currentStation.name}
+            Playing: {this.state.currentStation.name}
           </div>
       </Viewer>
     </div>
