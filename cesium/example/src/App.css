@@ -41,7 +41,7 @@
 
 #dropbtn {
   padding: 5px;
-  font-size: 25px;
+  font-size: 35px;
   border: none;
   cursor: pointer;
   /* height: 20px; */
@@ -158,7 +158,7 @@
 	justify-content: center;
   align-items: center;
   position: absolute;
-  top: 150px;
+  top: 200px;
   right: 10px;
   z-index: 1;
 }
@@ -169,8 +169,8 @@
 	justify-content: center;
   align-items: center;
   position: absolute;
-  top: 200px;
-  right: 10px;
+  top: 400px;
+  left: 10px;
   z-index: 1;
 }
 
@@ -180,8 +180,8 @@
 	justify-content: center;
   align-items: center;
   position: absolute;
-  top: 250px;
-  right: 10px;
+  top: 450px;
+  left: 10px;
   z-index: 1;
 }
 
@@ -262,7 +262,7 @@
 	justify-content: center;
   align-items: center;
   position: absolute;
-  top: 155px;
+  top: 205px;
   right: 55px;
   z-index: 1;
   color: white;
@@ -301,4 +301,28 @@ outline: 1px solid slategrey;
 .favorites::-webkit-scrollbar-thumb {
 background-color: darkgrey;
 outline: 1px solid slategrey;
+}
+
+.removeFav-btn {
+  font-size: 30px;
+	display:flex;
+	justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 150px;
+  right: 10px;
+  z-index: 1;
+}
+
+#removeFav-hover {
+  font-size: 16px;
+  font-family: inherit;
+	display:flex;
+	justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 155px;
+  right: 55px;
+  z-index: 1;
+  color: white;
 }

@@ -32,6 +32,7 @@ class Radioplayer extends Component {
       currentStation: {name: ""},
       isHoveringSound: false,
       isHoveringFavorite: false,
+      isHoveringRemoveFavorite: false,
       isHoveringFavList: false,
       isHoveringSearchBtn:false,
       showOverlay: true
@@ -79,6 +80,21 @@ class Radioplayer extends Component {
       favorites: [...this.state.favorites, this.state.currentStation]
     })
   }
+
+  // Make a removeFavoritesHandler(station) function
+  // const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+  // const favoritesWithStationRemoved = favorites.filter((fav) => fav.id !== station.id)
+  // localStorage.setItem('favorites', JSON.stringify(favoritesWithStationRemoved));
+  // this.setState({ favorites: favoritesWithStationRemoved });
+
+  // removeFavoritesHandler(station) = (e) => {
+  //   e.preventDefault()
+
+  //   const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+  //   const favoritesWithStationRemoved = favorites.filter((fav) => fav.id !== station.id)
+  //   localStorage.setItem('favorites', JSON.stringify(favoritesWithStationRemoved));
+  //   this.setState({ favorites: favoritesWithStationRemoved });
+  // }
  
   broadcastHandler = (e) => {
     e.preventDefault()
@@ -143,6 +159,20 @@ toggleHoverStateFavorite = () => {
       else
         this.setState({isHoveringFavorite: false})
 }
+
+
+handleMouseHoverRemoveFavorite = (e) =>  {
+  e.preventDefault()
+  this.setState(this.toggleHoverStateRemoveFavorite);
+}
+
+toggleHoverStateRemoveFavorite = () => {
+  if (!this.state.isHoveringRemoveFavorite)
+        this.setState({isHoveringRemoveFavorite: true})
+      else
+        this.setState({isHoveringRemoveFavorite: false})
+}
+
 
 handleMouseHoverFavList = (e) =>  {
   e.preventDefault()
@@ -264,9 +294,21 @@ render() {
           onClick={this.favoritesHandler}
           onMouseEnter={this.handleMouseHoverFavorite}
           onMouseLeave={this.handleMouseHoverFavorite}>
-          <i className="far fa-heart"></i>
+          <i className="fas fa-heart"></i>
         </div>
           {this.state.isHoveringFavorite && <div id="fav-hover">Add Favorite</div>}
+
+
+          <div 
+          className="cesium-button cesium-toolbar-button removeFav-btn" 
+          onClick={this.removeFavoritesHandler}
+          onMouseEnter={this.handleMouseHoverRemoveFavorite}
+          onMouseLeave={this.handleMouseHoverRemoveFavorite}>
+          <i className="far fa-heart"></i>
+        </div>
+          {this.state.isHoveringRemoveFavorite && <div id="removeFav-hover">Remove Favorite</div>}
+
+
         <div 
           className="cesium-button cesium-toolbar-button list-btn" 
           onClick={this.toggleFavorites}
