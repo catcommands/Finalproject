@@ -6,7 +6,7 @@ import { Camera, Viewer, Entity, Scene, ScreenSpaceCameraController } from "resi
 import { Camera as Cam, Cartesian3, Color} from "cesium";
 import {urls} from "./urls"
 
-const pointGraphics = { pixelSize: 8, 
+const pointGraphics = { pixelSize: 6, 
   color: Color.LAWNGREEN};
 const positions = urls.map((url) => {
   return {coord: Cartesian3.fromDegrees(Number(url.longitude), Number(url.latitude), 100), url:url}
@@ -229,10 +229,10 @@ render() {
       {
         this.state.showOverlay
         ? <div className="overlay" style={{position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: '', zIndex: 9 }}>
-            <h1>ᚱΔDIOᛖΔᚹ</h1>
+            <h1>ᚱΔDIO ᚹLΔNET</h1>
             
-            <button className="enter-button" onClick={this.removeOverlay}>Enter</button>
-            <img src="/photo.gif"></img>
+            <button className="enter-button" onClick={this.removeOverlay}>Connect Me to the World!</button>
+            <img src="/rotatglob.gif"></img>
           </div>
         : null 
       }

@@ -337,4 +337,9 @@ outline: 1px solid slategrey;
 
 .enter-button {
   color: rgb(0, 0, 3);
+  font-family: fantasy;
+  font-size: smaller;
+  background-color: blue;
+  border-style: double;
+  border-radius: 28px;
 }
