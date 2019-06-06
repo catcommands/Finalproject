@@ -365,7 +365,7 @@ render() {
         }
 
           <div className="currentStation">
-            Playing: {this.state.currentStation.name}
+        Current Station: {this.state.currentStation.name}
           </div>
       </Viewer>
     </div>
