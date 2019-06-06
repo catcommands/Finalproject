@@ -6,7 +6,7 @@ import { Camera, Viewer, Entity, Scene, ScreenSpaceCameraController } from "resi
 import { Camera as Cam, Cartesian3, Color} from "cesium";
 import {urls} from "./urls"
 
-const pointGraphics = { pixelSize: 4, 
+const pointGraphics = { pixelSize: 8, 
   color: Color.LAWNGREEN};
 const positions = urls.map((url) => {
   return {coord: Cartesian3.fromDegrees(Number(url.longitude), Number(url.latitude), 100), url:url}
@@ -83,12 +83,6 @@ class Radioplayer extends Component {
       favorites: [...favoritesWithStation, this.state.currentStation]
     })
   }
-
-  // Make a removeFavoritesHandler(station) function
-  // const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-  // const favoritesWithStationRemoved = favorites.filter((fav) => fav.id !== station.id)
-  // localStorage.setItem('favorites', JSON.stringify(favoritesWithStationRemoved));
-  // this.setState({ favorites: favoritesWithStationRemoved });
 
   removeFavoritesHandler = (e) => {
     e.preventDefault()
@@ -224,18 +218,13 @@ render() {
   const entities = positions.map((position, i) => { 
     return <Entity key={i} position={position.coord} point={pointGraphics} onClick={() => this.onClick(position.url)}/>
   })
-    // console.log("Entities:", entities)
-    // TODO: make a const that loops through the urls
-    // and returns an a tag <a href="">{url.name}</a>
-    // for each url
+
   const options = searchOptions.map((element, i) => {
-    // console.log("Element is:", element)
+
     return <a key={i} href="" onClick={(e) => this.onClick(element, e)}>{element.name} {element.country} {element.city} {element.language} {element.genre} </a>
   })
-  // console.log("options:", options)
 
   const favList = this.state.favorites.map((element, i) => {
-    // console.log("Element is:", element)
     return <a key={i} href="" onClick={(e) => this.onClick(element, e)}>{element.name}  </a>
   })
 
