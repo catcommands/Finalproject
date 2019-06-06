@@ -16,7 +16,6 @@ const searchOptions = urls.map((option) => {
   return {name: option.name, genre: option.tags, city: option.state, country: option.country, url: option.url, lng: option.longitude, lat: option.latitude}
 
 })
-console.log("searchOptions object: ", searchOptions)
 class Radioplayer extends Component {
   constructor (props) {
     super(props);
@@ -49,7 +48,6 @@ class Radioplayer extends Component {
     // x.value = `${data.longitude}, ${data.latitude}`
     var txtbox = document.getElementsByClassName("cesium-geocoder-searchButton")[0]
     txtbox.click()
-    // console.log("the data is:", data)
     this.setState({ url: data.url, currentStation: data, showSearch: false})
     //this.toggleSearchList();
   }
@@ -63,7 +61,6 @@ class Radioplayer extends Component {
       this.setState({favorites: JSON.parse(favorites)})
     }
   }
-
 
   favoritesHandler = (e) => {
     e.preventDefault()
@@ -83,12 +80,6 @@ class Radioplayer extends Component {
       favorites: [...favoritesWithStation, this.state.currentStation]
     })
   }
-
-  // Make a removeFavoritesHandler(station) function
-  // const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-  // const favoritesWithStationRemoved = favorites.filter((fav) => fav.id !== station.id)
-  // localStorage.setItem('favorites', JSON.stringify(favoritesWithStationRemoved));
-  // this.setState({ favorites: favoritesWithStationRemoved });
 
   removeFavoritesHandler = (e) => {
     e.preventDefault()
@@ -134,13 +125,6 @@ class Radioplayer extends Component {
     }
   }
   
-// Resets the localStorage to an empty object, eliminating all items on it
-// clearFavorites = (e) => {
-//   e.preventDefault()
-//   localStorage.setItem('favorites', 'null');
-//   this.state.favorites = [];
-// }
-
 handleMouseHoverSound = (e) =>  {
   e.preventDefault()
   this.setState(this.toggleHoverStateSound);
@@ -165,7 +149,6 @@ toggleHoverStateFavorite = () => {
         this.setState({isHoveringFavorite: false})
 }
 
-
 handleMouseHoverRemoveFavorite = (e) =>  {
   e.preventDefault()
   this.setState(this.toggleHoverStateRemoveFavorite);
@@ -177,7 +160,6 @@ toggleHoverStateRemoveFavorite = () => {
       else
         this.setState({isHoveringRemoveFavorite: false})
 }
-
 
 handleMouseHoverFavList = (e) =>  {
   e.preventDefault()
@@ -210,6 +192,8 @@ removeOverlay = () => {
 }
 
 zoomIn = () => {
+  // Explicitly zoom-in using the raw DOM API
+  // We're accessing "current" to get the DOM node
   this.camera.current.cesiumElement.zoomIn(1000000);
 }
 
@@ -217,30 +201,22 @@ zoomOut = () => {
   this.camera.current.cesiumElement.zoomOut(1000000);
 }
 
-
 camera = React.createRef()
 
 render() {
   const entities = positions.map((position, i) => { 
     return <Entity key={i} position={position.coord} point={pointGraphics} onClick={() => this.onClick(position.url)}/>
   })
-    // console.log("Entities:", entities)
-    // TODO: make a const that loops through the urls
+    // const that loops through the urls
     // and returns an a tag <a href="">{url.name}</a>
     // for each url
   const options = searchOptions.map((element, i) => {
-    // console.log("Element is:", element)
     return <a key={i} href="" onClick={(e) => this.onClick(element, e)}>{element.name} {element.country} {element.city} {element.language} {element.genre} </a>
   })
-  // console.log("options:", options)
 
   const favList = this.state.favorites.map((element, i) => {
-    // console.log("Element is:", element)
     return <a key={i} href="" onClick={(e) => this.onClick(element, e)}>{element.name}  </a>
   })
-
-  console.log("camera: ", this.camera)
-
 
   return (
     <div className="Radioplayer">
@@ -286,7 +262,6 @@ render() {
     />
     <Camera
     maximumZoomFactor={0.05}
-    // defaultZoomAmount={100}
     ref={this.camera}
     />
 
@@ -321,7 +296,6 @@ render() {
         </div>
           {this.state.isHoveringFavorite && <div id="fav-hover">Add Favorite</div>}
 
-
           <div 
           className="cesium-button cesium-toolbar-button removeFav-btn" 
           onClick={this.removeFavoritesHandler}
@@ -330,7 +304,6 @@ render() {
           <i className="far fa-heart"></i>
         </div>
           {this.state.isHoveringRemoveFavorite && <div id="removeFav-hover">Remove Favorite</div>}
-
 
         <div 
           className="cesium-button cesium-toolbar-button list-btn" 
