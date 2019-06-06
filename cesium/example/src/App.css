@@ -169,7 +169,7 @@
 	justify-content: center;
   align-items: center;
   position: absolute;
-  top: 400px;
+  bottom: 180px;
   left: 10px;
   z-index: 1;
 }
@@ -180,7 +180,7 @@
 	justify-content: center;
   align-items: center;
   position: absolute;
-  top: 450px;
+  bottom: 130px;
   left: 10px;
   z-index: 1;
 }
@@ -200,7 +200,7 @@
 .favorites {
   display:inline-block;
   height: 100px;
-  width: 200px;
+  width: 300px;
 	justify-content: center;
   align-items: center;
   position: absolute;
@@ -327,7 +327,12 @@ outline: 1px solid slategrey;
   color: white;
 }
 .overlay {
-  background-color: rgb(0, 117, 226);
+  background-color: black;
+  color: white;
+  display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .enter-button {

@@ -16,7 +16,6 @@ const searchOptions = urls.map((option) => {
   return {name: option.name, genre: option.tags, city: option.state, country: option.country, url: option.url, lng: option.longitude, lat: option.latitude}
 
 })
-console.log("searchOptions object: ", searchOptions)
 class Radioplayer extends Component {
   constructor (props) {
     super(props);
@@ -49,7 +48,6 @@ class Radioplayer extends Component {
     // x.value = `${data.longitude}, ${data.latitude}`
     var txtbox = document.getElementsByClassName("cesium-geocoder-searchButton")[0]
     txtbox.click()
-    // console.log("the data is:", data)
     this.setState({ url: data.url, currentStation: data, showSearch: false})
     //this.toggleSearchList();
   }
@@ -63,7 +61,6 @@ class Radioplayer extends Component {
       this.setState({favorites: JSON.parse(favorites)})
     }
   }
-
 
   favoritesHandler = (e) => {
     e.preventDefault()
@@ -128,13 +125,6 @@ class Radioplayer extends Component {
     }
   }
   
-// Resets the localStorage to an empty object, eliminating all items on it
-// clearFavorites = (e) => {
-//   e.preventDefault()
-//   localStorage.setItem('favorites', 'null');
-//   this.state.favorites = [];
-// }
-
 handleMouseHoverSound = (e) =>  {
   e.preventDefault()
   this.setState(this.toggleHoverStateSound);
@@ -159,7 +149,6 @@ toggleHoverStateFavorite = () => {
         this.setState({isHoveringFavorite: false})
 }
 
-
 handleMouseHoverRemoveFavorite = (e) =>  {
   e.preventDefault()
   this.setState(this.toggleHoverStateRemoveFavorite);
@@ -171,7 +160,6 @@ toggleHoverStateRemoveFavorite = () => {
       else
         this.setState({isHoveringRemoveFavorite: false})
 }
-
 
 handleMouseHoverFavList = (e) =>  {
   e.preventDefault()
@@ -204,13 +192,14 @@ removeOverlay = () => {
 }
 
 zoomIn = () => {
+  // Explicitly zoom-in using the raw DOM API
+  // We're accessing "current" to get the DOM node
   this.camera.current.cesiumElement.zoomIn(1000000);
 }
 
 zoomOut = () => {
   this.camera.current.cesiumElement.zoomOut(1000000);
 }
-
 
 camera = React.createRef()
 
@@ -227,9 +216,6 @@ render() {
   const favList = this.state.favorites.map((element, i) => {
     return <a key={i} href="" onClick={(e) => this.onClick(element, e)}>{element.name}  </a>
   })
-
-  console.log("camera: ", this.camera)
-
 
   return (
     <div className="Radioplayer">
@@ -275,7 +261,6 @@ render() {
     />
     <Camera
     maximumZoomFactor={0.05}
-    // defaultZoomAmount={100}
     ref={this.camera}
     />
 
@@ -310,7 +295,6 @@ render() {
         </div>
           {this.state.isHoveringFavorite && <div id="fav-hover">Add Favorite</div>}
 
-
           <div 
           className="cesium-button cesium-toolbar-button removeFav-btn" 
           onClick={this.removeFavoritesHandler}
@@ -319,7 +303,6 @@ render() {
           <i className="far fa-heart"></i>
         </div>
           {this.state.isHoveringRemoveFavorite && <div id="removeFav-hover">Remove Favorite</div>}
-
 
         <div 
           className="cesium-button cesium-toolbar-button list-btn" 
@@ -354,7 +337,7 @@ render() {
         }
 
           <div className="currentStation">
-            Playing: {this.state.currentStation.name}
+        Current Station: {this.state.currentStation.name}
           </div>
       </Viewer>
     </div>
