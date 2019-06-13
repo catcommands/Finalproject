@@ -25,8 +25,8 @@ const urls =
         "clicktimestamp": "2019-05-30 22:07:47",
         "clickcount": "0",
         "clicktrend": "0",
-        "latitude": 40.78743749217175,
-        "longitude": -73.9453389790439
+        "latitude": 43.644032,
+        "longitude": -79.3672082
     },
     {
         "id": "106949",

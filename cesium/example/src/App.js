@@ -3,10 +3,10 @@ import ReactPlayer from 'react-player'
 import { hot } from "react-hot-loader/root";
 import "./App.css";
 import { Camera, Viewer, Entity, Scene, ScreenSpaceCameraController } from "resium";
-import { Cartesian3, Color} from "cesium";
+import { Camera as Cam, Cartesian3, Color} from "cesium";
 import {urls} from "./urls"
 
-const pointGraphics = { pixelSize: 4, 
+const pointGraphics = { pixelSize: 6, 
   color: Color.LAWNGREEN};
 const positions = urls.map((url) => {
   return {coord: Cartesian3.fromDegrees(Number(url.longitude), Number(url.latitude), 100), url:url}
@@ -16,7 +16,6 @@ const searchOptions = urls.map((option) => {
   return {name: option.name, genre: option.tags, city: option.state, country: option.country, url: option.url, lng: option.longitude, lat: option.latitude}
 
 })
-console.log("searchOptions object: ", searchOptions)
 class Radioplayer extends Component {
   constructor (props) {
     super(props);
@@ -32,6 +31,7 @@ class Radioplayer extends Component {
       currentStation: {name: ""},
       isHoveringSound: false,
       isHoveringFavorite: false,
+      isHoveringRemoveFavorite: false,
       isHoveringFavList: false,
       isHoveringSearchBtn:false,
       showOverlay: true
@@ -48,7 +48,6 @@ class Radioplayer extends Component {
     // x.value = `${data.longitude}, ${data.latitude}`
     var txtbox = document.getElementsByClassName("cesium-geocoder-searchButton")[0]
     txtbox.click()
-    // console.log("the data is:", data)
     this.setState({ url: data.url, currentStation: data, showSearch: false})
     //this.toggleSearchList();
   }
@@ -63,21 +62,34 @@ class Radioplayer extends Component {
     }
   }
 
-
   favoritesHandler = (e) => {
     e.preventDefault()
 
     const favorites = JSON.parse(localStorage.getItem('favorites'))
 
     if (favorites) { 
-      favorites.push(this.state.currentStation)
-      localStorage.setItem("favorites", JSON.stringify(favorites))
+      const favoritesWithStation = favorites.filter((fav) => fav.id !== this.state.currentStation.id)
+      favoritesWithStation.push(this.state.currentStation)
+      localStorage.setItem("favorites", JSON.stringify(favoritesWithStation))
     } else {
       localStorage.setItem("favorites", JSON.stringify([this.state.currentStation]))
     }
+
+    const favoritesWithStation = this.state.favorites.filter((fav) => fav.id !== this.state.currentStation.id)
     this.setState({ 
-      favorites: [...this.state.favorites, this.state.currentStation]
+      favorites: [...favoritesWithStation, this.state.currentStation]
     })
+  }
+
+  removeFavoritesHandler = (e) => {
+    e.preventDefault()
+    const station = this.state.currentStation;
+    if (station) {
+      const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+      const favoritesWithStationRemoved = favorites.filter((fav) => fav.id !== station.id)
+      localStorage.setItem('favorites', JSON.stringify(favoritesWithStationRemoved));
+      this.setState({ favorites: favoritesWithStationRemoved });
+    }
   }
  
   broadcastHandler = (e) => {
@@ -113,13 +125,6 @@ class Radioplayer extends Component {
     }
   }
   
-// Resets the localStorage to an empty object, eliminating all items on it
-// clearFavorites = (e) => {
-//   e.preventDefault()
-//   localStorage.setItem('favorites', 'null');
-//   this.state.favorites = [];
-// }
-
 handleMouseHoverSound = (e) =>  {
   e.preventDefault()
   this.setState(this.toggleHoverStateSound);
@@ -142,6 +147,18 @@ toggleHoverStateFavorite = () => {
         this.setState({isHoveringFavorite: true})
       else
         this.setState({isHoveringFavorite: false})
+}
+
+handleMouseHoverRemoveFavorite = (e) =>  {
+  e.preventDefault()
+  this.setState(this.toggleHoverStateRemoveFavorite);
+}
+
+toggleHoverStateRemoveFavorite = () => {
+  if (!this.state.isHoveringRemoveFavorite)
+        this.setState({isHoveringRemoveFavorite: true})
+      else
+        this.setState({isHoveringRemoveFavorite: false})
 }
 
 handleMouseHoverFavList = (e) =>  {
@@ -174,24 +191,32 @@ removeOverlay = () => {
   });
 }
 
+zoomIn = () => {
+  // Explicitly zoom-in using the raw DOM API
+  // We're accessing "current" to get the DOM node
+  this.camera.current.cesiumElement.zoomIn(1000000);
+}
+
+zoomOut = () => {
+  this.camera.current.cesiumElement.zoomOut(1000000);
+}
+
+camera = React.createRef()
+
 render() {
   const entities = positions.map((position, i) => { 
     return <Entity key={i} position={position.coord} point={pointGraphics} onClick={() => this.onClick(position.url)}/>
   })
-    // console.log("Entities:", entities)
-    // TODO: make a const that loops through the urls
-    // and returns an a tag <a href="">{url.name}</a>
-    // for each url
+
   const options = searchOptions.map((element, i) => {
-    // console.log("Element is:", element)
+
     return <a key={i} href="" onClick={(e) => this.onClick(element, e)}>{element.name} {element.country} {element.city} {element.language} {element.genre} </a>
   })
-  // console.log("options:", options)
 
   const favList = this.state.favorites.map((element, i) => {
-    // console.log("Element is:", element)
     return <a key={i} href="" onClick={(e) => this.onClick(element, e)}>{element.name}  </a>
   })
+
   return (
     <div className="Radioplayer">
     <ReactPlayer 
@@ -200,13 +225,14 @@ render() {
       url={this.state.url} 
       controls={true} 
       playing={true}
-    /> 
+    /> 
       {
         this.state.showOverlay
-        ? <div className="overlay" style={{position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'blue', zIndex: 9 }}>
-            <h1>ᚱΔDIOᛖΔᚹ</h1>
+        ? <div className="overlay" style={{position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: '', zIndex: 9 }}>
+            <h1>ᚱΔDIO ᚹLΔNET</h1>
             
-            <button onClick={this.removeOverlay}>Enter</button>
+            <button className="enter-button" onClick={this.removeOverlay}>Connect Me to the World!</button>
+            <img src="/rotatglob.gif"></img>
           </div>
         : null 
       }
@@ -235,6 +261,7 @@ render() {
     />
     <Camera
     maximumZoomFactor={0.05}
+    ref={this.camera}
     />
 
       <div className="searchbar">
@@ -255,7 +282,7 @@ render() {
               {options}
             </div>
           </div>
-        }
+        },
       </div>
     
       {entities}
@@ -264,9 +291,19 @@ render() {
           onClick={this.favoritesHandler}
           onMouseEnter={this.handleMouseHoverFavorite}
           onMouseLeave={this.handleMouseHoverFavorite}>
-          <i className="far fa-heart"></i>
+          <i className="fas fa-heart"></i>
         </div>
           {this.state.isHoveringFavorite && <div id="fav-hover">Add Favorite</div>}
+
+          <div 
+          className="cesium-button cesium-toolbar-button removeFav-btn" 
+          onClick={this.removeFavoritesHandler}
+          onMouseEnter={this.handleMouseHoverRemoveFavorite}
+          onMouseLeave={this.handleMouseHoverRemoveFavorite}>
+          <i className="far fa-heart"></i>
+        </div>
+          {this.state.isHoveringRemoveFavorite && <div id="removeFav-hover">Remove Favorite</div>}
+
         <div 
           className="cesium-button cesium-toolbar-button list-btn" 
           onClick={this.toggleFavorites}
@@ -276,11 +313,11 @@ render() {
         </div>
         {this.state.isHoveringFavList && <div id="favList-hover">Show Favorites</div>}
 
-        <div className="cesium-button cesium-toolbar-button zoomin-btn">
+        <div onClick={this.zoomIn} className="cesium-button cesium-toolbar-button zoomin-btn">
           <i class="fas fa-search-plus"></i>
         </div>
 
-        <div className="cesium-button cesium-toolbar-button zoomout-btn">
+        <div onClick={this.zoomOut} className="cesium-button cesium-toolbar-button zoomout-btn">
           <i class="fas fa-search-minus"></i>
         </div>
 
@@ -299,23 +336,8 @@ render() {
           </div>
         }
 
-
-        {this.state.showFavorites && 
-          <div className="favorites">
-              {this.state.favorites.map((favorite) =>
-              <ul>
-                <li key={favorite.name}>{favorite.name}</li>  
-              </ul>
-              )
-              }
-              <div className="clearFav-btn" onClick={this.clearFavorites}>
-                  <i class="fas fa-minus-circle"></i>
-              </div>
-          </div>
-        }
-
           <div className="currentStation">
-            {this.state.currentStation.name}
+        Current Station: {this.state.currentStation.name}
           </div>
       </Viewer>
     </div>
