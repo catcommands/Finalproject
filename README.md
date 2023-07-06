@@ -1,12 +1,11 @@
 # Finalproject
 #Setup
-
-Fork & Clone
+#Fork & Clone
     Run npm install to install dependencies
     Run npm start to start the server
     Open http://localhost:3000
 
-Dependencies
+#Dependencies
 
     @craco/craco 5.2.1
     cesium 1.57.0
