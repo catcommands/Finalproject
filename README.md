@@ -1,4 +1,4 @@
-# Finalproject
+# Finalproject - Radio Planet
 Setup
 Fork & Clone
 Run npm install to install dependencies
