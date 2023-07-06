@@ -14,6 +14,11 @@ Open http://localhost:3000
 
 <img width="1278" alt="homePage" src="https://github.com/JeffShah/Finalproject/assets/46609434/0cc5779b-3fe7-49b3-a1c2-c212f1a66ff6">
 
+# Navigate to Location
+
+<img width="1278" alt="navigateToLocation" src="https://github.com/JeffShah/Finalproject/assets/46609434/1884b31f-8515-4f92-a313-1218f7ddf66f">
+
+
 # Search by Locations
 
 <img width="1276" alt="searchLocation" src="https://github.com/JeffShah/Finalproject/assets/46609434/f7ff455b-4b46-4413-8fd8-88508147e4c4">
