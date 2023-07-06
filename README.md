@@ -17,5 +17,11 @@ Open http://localhost:3000
     react-player 1.11.0
     react-scripts 3.0.1
     resium 1.4.1
-Overlay <img width="1280" alt="overlay" src="https://github.com/JeffShah/Finalproject/assets/46609434/3a134b1e-bc4b-4766-9f64-2ae666e18c37">
+# Overlay 
+
+<img width="1280" alt="overlay" src="https://github.com/JeffShah/Finalproject/assets/46609434/3a134b1e-bc4b-4766-9f64-2ae666e18c37">
+
+#Home Page
+
+<img width="1278" alt="homePage" src="https://github.com/JeffShah/Finalproject/assets/46609434/0cc5779b-3fe7-49b3-a1c2-c212f1a66ff6">
 
