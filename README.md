@@ -1,9 +1,9 @@
 # Finalproject
-#Setup
-#Fork & Clone
-    Run npm install to install dependencies
-    Run npm start to start the server
-    Open http://localhost:3000
+Setup
+Fork & Clone
+Run npm install to install dependencies
+Run npm start to start the server
+Open http://localhost:3000
 
 #Dependencies
 
