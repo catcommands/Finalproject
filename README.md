@@ -17,4 +17,4 @@ Open http://localhost:3000
     react-player 1.11.0
     react-scripts 3.0.1
     resium 1.4.1
-![alt text]([http://url/to/img.png](https://github.com/JeffShah/Finalproject/blob/master/overlay.png)https://github.com/JeffShah/Finalproject/blob/master/overlay.png)
+Overlay (https://github.com/JeffShah/Finalproject/blob/master/overlay.png)
